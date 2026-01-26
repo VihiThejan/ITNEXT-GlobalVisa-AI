@@ -1,4 +1,4 @@
-import { User, User Profile, AssessmentResult } from '../types';
+import { User, UserProfile, AssessmentResult } from '../types';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -82,12 +82,24 @@ export const api = {
 
   assessments: {
     async save(email: string, assessment: AssessmentResult): Promise<void> {
-      // Backend endpoint to save assessment to DB
-      await fetch(`${API_URL}/assessments/save`, {
+      const user = await api.auth.getCurrentSession();
+      if (!user || !user.id) {
+        console.error('No user session found, cannot save assessment');
+        return;
+      }
+
+      console.log('Saving assessment to backend for user:', user.id);
+      const res = await fetch(`${API_URL}/assessments/save`, {
         method: 'POST',
         headers: getHeaders(),
-        body: JSON.stringify({ email, assessment })
+        body: JSON.stringify({ userId: user.id, assessment })
       });
+
+      if (!res.ok) {
+        console.error('Failed to save assessment');
+      } else {
+        console.log('Assessment saved successfully');
+      }
     }
   }
 };
