@@ -9,25 +9,31 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware - CORS configuration
+// Middleware - CORS configuration
 const allowedOrigins = [
-    'http://localhost:5173',  // Local frontend development
-    'https://itnext-globalvisa-ai.pages.dev',  // Production frontend (Cloudflare Pages)
-    'https://*.pages.dev'  // Allow any Cloudflare Pages preview deployments
+    'http://localhost:5173',                    // Local frontend development
+    'http://localhost:3000',                    // Local backend development
+    'https://itnext-globalvisa-ai.pages.dev',   // Production frontend (Cloudflare Pages)
 ];
+
+// Helper to check if origin matches wildcard pattern
+const isOriginAllowed = (origin: string, allowed: string) => {
+    if (allowed === origin) return true;
+    if (allowed.includes('*')) {
+        const pattern = allowed.replace(/\./g, '\\.').replace('*', '.*');
+        return new RegExp(`^${pattern}$`).test(origin);
+    }
+    return false;
+};
 
 app.use(cors({
     origin: (origin, callback) => {
-        // Allow requests with no origin (mobile apps, Postman, etc.)
+        // Allow requests with no origin (mobile apps, curl, etc.)
         if (!origin) return callback(null, true);
 
-        // Check if origin is in allowed list or matches wildcard
-        const isAllowed = allowedOrigins.some(allowed => {
-            if (allowed.includes('*')) {
-                const pattern = allowed.replace('*', '.*');
-                return new RegExp(pattern).test(origin);
-            }
-            return allowed === origin;
-        });
+        // Check if origin matches any allowed origin (exact or wildcard)
+        const isAllowed = allowedOrigins.some(allowed => isOriginAllowed(origin, allowed)) ||
+            origin.endsWith('.pages.dev'); // Explicitly allow all pages.dev subdomains
 
         if (isAllowed) {
             callback(null, true);
@@ -36,7 +42,9 @@ app.use(cors({
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
