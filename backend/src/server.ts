@@ -29,49 +29,40 @@ const isOriginAllowed = (origin: string, allowed: string) => {
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     
-    // Determine if origin is allowed
-    const isAllowed = origin && (
+    console.log(`[CORS] ${req.method} ${req.path} from origin: ${origin}`);
+    
+    // Determine if origin is allowed (more permissive for deployment)
+    const isAllowed = !origin || // No origin (curl, etc.)
         allowedOrigins.some(allowed => isOriginAllowed(origin, allowed)) ||
         origin.endsWith('.pages.dev') ||
-        origin.endsWith('.cloudflare.com')
-    );
+        origin.endsWith('.cloudflare.com') ||
+        origin.includes('vercel.app'); // Allow vercel preview URLs
     
     if (isAllowed && origin) {
         res.setHeader('Access-Control-Allow-Origin', origin);
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-        res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
+    } else if (!origin) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
     }
+    
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+    res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
     
     // Handle preflight requests immediately
     if (req.method === 'OPTIONS') {
+        console.log('[CORS] Preflight request handled');
         return res.status(204).end();
     }
     
     next();
 });
 
-app.use(cors({
-    origin: (origin, callback) => {
-        // Allow requests with no origin (mobile apps, curl, etc.)
-        if (!origin) return callback(null, true);
-
-        // Check if origin matches any allowed origin (exact or wildcard)
-        const isAllowed = allowedOrigins.some(allowed => isOriginAllowed(origin, allowed)) ||
-            origin.endsWith('.pages.dev') || // Explicitly allow all pages.dev subdomains
-            origin.endsWith('.cloudflare.com');
-
-        if (isAllowed) {
-            callback(null, true);
-        } else {
-            console.warn(`CORS blocked request from origin: ${origin}`);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+app.use(cors({  
+    origin: true, // Accept all origins in the middleware layer
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 }));
 app.use(express.json());
 
