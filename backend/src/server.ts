@@ -79,6 +79,11 @@ mongoose.connect(process.env.MONGODB_URI as string)
     .catch(err => console.error('MongoDB Connection Error:', err));
 
 // Start Server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Start Server
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+export default app;
