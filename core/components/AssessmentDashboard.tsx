@@ -62,7 +62,7 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
     ctx.font = 'black 64px Inter, sans-serif';
     ctx.fillText('Relocation Blueprint', padding, 170);
     const link = document.createElement('a');
-    link.download = `ITNEXT-Blueprint-${result.countryName.replace(/\s+/g, '-')}.png`;
+    link.download = `ITNEXT-Blueprint-${(result.countryName || result.targetCountry || 'Unknown').replace(/\s+/g, '-')}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
   };
@@ -81,7 +81,7 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
               <button onClick={() => setShowComparePicker(false)} className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center"><i className="fas fa-times"></i></button>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-[40vh] overflow-y-auto pr-4 custom-scrollbar">
-              {COUNTRIES.filter(c => c.name !== result.countryName).map(c => (
+              {COUNTRIES.filter(c => c.name !== (result.countryName || result.targetCountry)).map(c => (
                 <div 
                   key={c.id} 
                   onClick={() => toggleCountry(c.id)}

@@ -130,16 +130,16 @@ export default function AuthPage({ onAuthSuccess, onBack }: AuthPageProps) {
             </form>
 
             <div className="text-center">
+              {/* Verification code resend - disabled for production
               <button 
-                onClick={async () => {
-                  const code = await api.auth.sendVerificationCode(email);
-                  setSimulatedCode(code);
+                onClick={() => {
                   setError('New code sent!');
                 }} 
                 className="text-sm font-bold text-blue-600 hover:underline"
               >
-                Resend Code
+                Resend verification code
               </button>
+              */}
             </div>
           </div>
 

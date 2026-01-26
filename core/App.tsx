@@ -9,12 +9,14 @@ import ComparisonDashboard from './components/ComparisonDashboard';
 import CountryDetail from './components/CountryDetail';
 import AuthPage from './components/AuthPage';
 import { UserProfile, AssessmentResult, Country, User } from './types';
-import { COUNTRIES, CONSULTANCIES } from './constants';
+import { COUNTRIES } from './constants';
 import { generateAssessment } from './services/geminiService';
 import { api } from './services/api';
 import ITNextLogo from './components/Logo';
 import UserList from './components/admin/UserList';
 import UserActivity from './components/admin/UserActivity';
+import AdminLayout from './components/admin/AdminLayout';
+import AdminDashboard from './components/admin/AdminDashboard';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -31,7 +33,10 @@ const App: React.FC = () => {
       const activeSession = await api.auth.getCurrentSession();
       if (activeSession) {
         setUser(activeSession);
-        if (activeSession.profile) {
+        // If admin, go to admin panel
+        if (activeSession.role === 'admin') {
+          setCurrentPage('admin-dashboard');
+        } else if (activeSession.profile) {
           setCurrentPage('dashboard');
         }
       }
@@ -73,7 +78,7 @@ const App: React.FC = () => {
     if (!user) return;
     setIsLoading(true);
     try {
-      const updatedUser = await api.profile.update(user.email, profile);
+      const updatedUser = await api.profile.update(user.id, profile);
       setUser(updatedUser);
       setCurrentPage('dashboard');
     } catch (err) {
@@ -125,10 +130,9 @@ const App: React.FC = () => {
     try {
       const enrichedResult = await runSingleAssessment(countryName, visaCategory, languageTest, score, extraInfo);
       const updatedProfile: UserProfile = { ...user.profile, languageScores: { test: languageTest, score: score } };
-      await api.profile.update(user.email, updatedProfile);
-      const finalUpdatedUser = await api.assessments.save(user.email, enrichedResult);
+      await api.profile.update(user.id, updatedProfile);
+      await api.assessments.save(user.id, enrichedResult);
       setAssessmentResult(enrichedResult);
-      setUser(finalUpdatedUser);
       setCurrentPage('result');
     } catch (err) {
       alert(err instanceof Error ? err.message : "Assessment failed.");
@@ -175,12 +179,19 @@ const App: React.FC = () => {
       const dbUser = await api.auth.login(userData.email);
       let activeUser = dbUser || await api.auth.register(userData);
       setUser(activeUser);
-      if (!activeUser.profile) setCurrentPage('create-profile');
-      else if (pendingAction) {
+      
+      // Check if user is admin
+      if (activeUser.role === 'admin') {
+        setCurrentPage('admin-dashboard');
+      } else if (!activeUser.profile) {
+        setCurrentPage('create-profile');
+      } else if (pendingAction) {
         if (pendingAction.countryId) handleCountryDetail(pendingAction.countryId);
         else setCurrentPage(pendingAction.page);
         setPendingAction(null);
-      } else setCurrentPage('dashboard');
+      } else {
+        setCurrentPage('dashboard');
+      }
     } catch (err) {
       alert("Auth error.");
     } finally {
@@ -195,6 +206,30 @@ const App: React.FC = () => {
     setAssessmentResult(null);
     setComparisonResults([]);
   };
+
+  // Render admin layout for admin users
+  if (user?.role === 'admin') {
+    return (
+      <AdminLayout
+        currentPage={currentPage}
+        onNavigate={setCurrentPage}
+        onLogout={handleLogout}
+        user={user}
+      >
+        {currentPage === 'admin-dashboard' && <AdminDashboard onNavigate={setCurrentPage} />}
+        {currentPage === 'admin-users' && <UserList onSelectUser={(id) => { setPendingAction({ page: 'admin-activity', countryId: id }); setCurrentPage('admin-activity'); }} onBack={() => setCurrentPage('admin-dashboard')} />}
+        {currentPage === 'admin-activity' && pendingAction?.countryId && <UserActivity userId={pendingAction.countryId} onBack={() => setCurrentPage('admin-users')} />}
+        {currentPage === 'admin-settings' && (
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+              <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter mb-6">Settings</h2>
+              <p className="text-slate-500">Admin settings coming soon...</p>
+            </div>
+          </div>
+        )}
+      </AdminLayout>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

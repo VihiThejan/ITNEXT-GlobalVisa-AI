@@ -21,6 +21,8 @@ export const api = {
         });
         if (!res.ok) throw new Error('Login failed');
         const data = await res.json();
+        console.log('Login response:', data);
+        console.log('User role:', data.result.role);
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.result));
         return data.result;
@@ -55,7 +57,7 @@ export const api = {
   },
 
   profile: {
-    async update(email: string, profile: UserProfile): Promise<User> {
+    async update(_userId: string, profile: UserProfile): Promise<User> {
       const user = await api.auth.getCurrentSession();
       if (!user || !user.id) {
         throw new Error("No session or user ID");
@@ -81,7 +83,7 @@ export const api = {
   },
 
   assessments: {
-    async save(email: string, assessment: AssessmentResult): Promise<void> {
+    async save(_userId: string, assessment: AssessmentResult): Promise<void> {
       const user = await api.auth.getCurrentSession();
       if (!user || !user.id) {
         console.error('No user session found, cannot save assessment');
@@ -100,6 +102,62 @@ export const api = {
       } else {
         console.log('Assessment saved successfully');
       }
+    }
+  },
+
+  admin: {
+    async getUsers(): Promise<User[]> {
+      console.log('Fetching all users from admin API');
+      const res = await fetch(`${API_URL}/admin/users`, {
+        method: 'GET',
+        headers: getHeaders()
+      });
+
+      if (!res.ok) throw new Error('Failed to fetch users');
+
+      const data = await res.json();
+      console.log(`Fetched ${data.users.length} users`);
+      return data.users;
+    },
+
+    async searchUsers(query: string): Promise<User[]> {
+      console.log('Searching users:', query);
+      const res = await fetch(`${API_URL}/admin/users/search?q=${encodeURIComponent(query)}`, {
+        method: 'GET',
+        headers: getHeaders()
+      });
+
+      if (!res.ok) throw new Error('Failed to search users');
+
+      const data = await res.json();
+      return data.users;
+    },
+
+    async getUserActivity(userId: string): Promise<User> {
+      console.log('Fetching user activity:', userId);
+      const res = await fetch(`${API_URL}/admin/users/${userId}/activity`, {
+        method: 'GET',
+        headers: getHeaders()
+      });
+
+      if (!res.ok) throw new Error('Failed to fetch user activity');
+
+      const data = await res.json();
+      return data.user;
+    },
+
+    async getAnalytics() {
+      console.log('Fetching analytics from admin API');
+      const res = await fetch(`${API_URL}/admin/analytics`, {
+        method: 'GET',
+        headers: getHeaders()
+      });
+
+      if (!res.ok) throw new Error('Failed to fetch analytics');
+
+      const data = await res.json();
+      console.log('Analytics received:', data.analytics);
+      return data.analytics;
     }
   }
 };
