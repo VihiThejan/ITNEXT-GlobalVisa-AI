@@ -2,6 +2,9 @@
 
 Modern, AI-powered immigration assessment platform built with React, TypeScript, and Vite.
 
+## Important: Environment Configuration
+Before deploying, ensure `VITE_API_URL` is set in your deployment platform's environment variables.
+
 ## Features
 - Intelligent visa eligibility assessment
 - Multi-country comparison
