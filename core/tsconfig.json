@@ -29,7 +29,8 @@
         "types.ts",
         "constants.ts",
         "App.tsx",
-        "index.tsx"
+        "index.tsx",
+        "vite-env.d.ts"
     ],
     "exclude": [
         "node_modules",
