@@ -1,7 +1,11 @@
 import { User, UserProfile, AssessmentResult } from '../types';
 
-// Use environment variable if available, otherwise use production backend
-const API_URL = import.meta.env.VITE_API_URL || 'https://itnext-global-visa-ao0atm2wd-vihinsa-bandaras-projects.vercel.app/api';
+// Backend API URL from environment variable
+const API_URL = import.meta.env.VITE_API_URL;
+
+if (!API_URL) {
+  throw new Error('VITE_API_URL environment variable is not set');
+}
 
 const getHeaders = () => {
   const token = localStorage.getItem('token');
