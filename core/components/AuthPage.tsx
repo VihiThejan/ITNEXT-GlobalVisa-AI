@@ -43,27 +43,29 @@ export default function AuthPage({ onAuthSuccess, onBack }: AuthPageProps) {
     
     try {
       if (isLogin) {
-        // Simple login simulation
-        const user = await api.auth.login(email);
+        // Login with backend
+        console.log('Attempting login with:', email);
+        const user = await api.auth.login(email, password);
         if (user) {
-          if (!user.isVerified) {
-            const code = await api.auth.sendVerificationCode(email);
-            setSimulatedCode(code);
-            setShowVerification(true);
-          } else {
-            onAuthSuccess(user);
-          }
+          console.log('Login successful:', user);
+          onAuthSuccess(user);
         } else {
-          setError('User not found. Please register first.');
+          setError('Login failed. Please check your credentials.');
         }
       } else {
-        // Register flow: send verification first
-        const code = await api.auth.sendVerificationCode(email);
-        setSimulatedCode(code);
-        setShowVerification(true);
+        // Register with backend
+        console.log('Attempting registration with:', { email, fullName });
+        const user = await api.auth.register({
+          email,
+          fullName,
+          provider: 'email'
+        }, password);
+        console.log('Registration successful:', user);
+        onAuthSuccess(user);
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      console.error('Auth error:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -71,27 +73,8 @@ export default function AuthPage({ onAuthSuccess, onBack }: AuthPageProps) {
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError('');
-    
-    try {
-      if (verificationCode === simulatedCode) {
-        // Complete registration/verification
-        const user = await api.auth.register({
-          email,
-          fullName: isLogin ? email.split('@')[0] : fullName,
-          provider: 'email',
-          isVerified: true
-        });
-        onAuthSuccess(user);
-      } else {
-        setError('Invalid verification code. Please try again.');
-      }
-    } catch (err) {
-      setError('Verification failed.');
-    } finally {
-      setIsLoading(false);
-    }
+    // This is no longer needed - keeping stub for backward compatibility
+    setError('Verification flow deprecated, using direct auth');
   };
 
   if (showVerification) {

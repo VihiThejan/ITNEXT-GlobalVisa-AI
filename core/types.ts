@@ -5,6 +5,7 @@ export interface User {
   fullName: string;
   avatar?: string;
   provider: 'google' | 'email';
+  role?: 'user' | 'admin';
   isVerified?: boolean;
   profile?: UserProfile;
   assessmentHistory: AssessmentResult[];

@@ -1,113 +1,93 @@
+import { User, User Profile, AssessmentResult } from '../types';
 
-import { User, UserProfile, AssessmentResult } from '../types';
-import * as db from './storageService';
+const API_URL = 'http://localhost:5000/api';
 
-/**
- * GlobalVisa AI Simulated Backend API
- * This layer abstracts the underlying storage (localStorage) to behave like 
- * a real-world asynchronous database connection.
- */
-
-const LATENCY = 400; // Simulate network delay
-
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Simulated in-memory store for verification codes
-const verificationCodes = new Map<string, string>();
+const getHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+  };
+};
 
 export const api = {
   auth: {
-    async login(email: string): Promise<User | null> {
-      await delay(LATENCY);
-      const user = db.getUserByEmail(email);
-      if (user) {
-        db.saveCurrentSession(user);
+    async login(email: string, password?: string): Promise<User | null> {
+      try {
+        const res = await fetch(`${API_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        if (!res.ok) throw new Error('Login failed');
+        const data = await res.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.result));
+        return data.result;
+      } catch (e) {
+        console.error(e);
+        return null;
       }
-      return user;
     },
 
-    async register(userData: Partial<User>): Promise<User> {
-      await delay(LATENCY);
-      const newUser: User = {
-        id: userData.id || `user-${Math.random().toString(36).substr(2, 9)}`,
-        email: userData.email || '',
-        fullName: userData.fullName || 'Anonymous User',
-        provider: userData.provider || 'email',
-        avatar: userData.avatar,
-        isVerified: userData.provider === 'google', // Google users are pre-verified
-        assessmentHistory: [],
-        ...userData
-      };
-      db.saveUserToDb(newUser);
-      db.saveCurrentSession(newUser);
-      return newUser;
-    },
-
-    async sendVerificationCode(email: string): Promise<string> {
-      await delay(LATENCY * 1.5);
-      // In a real app, this sends an email. Here we return the code for UI simulation.
-      const code = Math.floor(100000 + Math.random() * 900000).toString();
-      verificationCodes.set(email.toLowerCase(), code);
-      console.log(`[SIMULATED EMAIL] Verification code for ${email}: ${code}`);
-      return code;
-    },
-
-    async verifyCode(email: string, code: string): Promise<boolean> {
-      await delay(LATENCY);
-      const storedCode = verificationCodes.get(email.toLowerCase());
-      if (storedCode === code) {
-        const user = db.getUserByEmail(email);
-        if (user) {
-          user.isVerified = true;
-          db.saveUserToDb(user);
-          db.saveCurrentSession(user);
-        }
-        verificationCodes.delete(email.toLowerCase());
-        return true;
-      }
-      return false;
-    },
-
-    async logout() {
-      await delay(LATENCY / 2);
-      db.saveCurrentSession(null);
+    async register(userData: Partial<User>, password?: string): Promise<User> {
+      const res = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...userData, password })
+      });
+      if (!res.ok) throw new Error('Registration failed');
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.result));
+      return data.result;
     },
 
     async getCurrentSession(): Promise<User | null> {
-      return db.getCurrentSession();
+      const userStr = localStorage.getItem('user');
+      return userStr ? JSON.parse(userStr) : null;
+    },
+
+    async logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
     }
   },
 
   profile: {
     async update(email: string, profile: UserProfile): Promise<User> {
-      await delay(LATENCY);
-      const user = db.getUserByEmail(email);
-      if (!user) throw new Error("User not found in database");
-      
-      const updatedUser = { ...user, profile };
-      db.saveUserToDb(updatedUser);
-      return updatedUser;
+      const user = await api.auth.getCurrentSession();
+      if (!user || !user.id) {
+        throw new Error("No session or user ID");
+      }
+
+      console.log('Updating profile for user:', user.id, profile);
+      const res = await fetch(`${API_URL}/profile/update`, {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify({ userId: user.id, profile })
+      });
+
+      if (!res.ok) throw new Error('Profile update failed');
+
+      const data = await res.json();
+      const updated = data.result;
+
+      // Update localStorage with new data
+      localStorage.setItem('user', JSON.stringify(updated));
+      console.log('Profile updated successfully');
+      return updated;
     }
   },
 
   assessments: {
-    async save(email: string, assessment: AssessmentResult): Promise<User> {
-      await delay(LATENCY);
-      const user = db.getUserByEmail(email);
-      if (!user) throw new Error("User not found in database");
-
-      const updatedUser = {
-        ...user,
-        assessmentHistory: [assessment, ...(user.assessmentHistory || [])]
-      };
-      db.saveUserToDb(updatedUser);
-      return updatedUser;
-    },
-
-    async getAll(email: string): Promise<AssessmentResult[]> {
-      await delay(LATENCY);
-      const user = db.getUserByEmail(email);
-      return user?.assessmentHistory || [];
+    async save(email: string, assessment: AssessmentResult): Promise<void> {
+      // Backend endpoint to save assessment to DB
+      await fetch(`${API_URL}/assessments/save`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ email, assessment })
+      });
     }
   }
 };

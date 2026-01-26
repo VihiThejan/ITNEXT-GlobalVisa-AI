@@ -13,6 +13,8 @@ import { COUNTRIES, CONSULTANCIES } from './constants';
 import { generateAssessment } from './services/geminiService';
 import { api } from './services/api';
 import ITNextLogo from './components/Logo';
+import UserList from './components/admin/UserList';
+import UserActivity from './components/admin/UserActivity';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -219,6 +221,11 @@ const App: React.FC = () => {
         {currentPage === 'country-detail' && selectedCountry && <CountryDetail country={selectedCountry} onBack={() => setCurrentPage('countries')} onCheckEligibility={() => protectedNavigate('dashboard')} />}
         {currentPage === 'result' && assessmentResult && <AssessmentDashboard result={assessmentResult} onReset={() => setCurrentPage('dashboard')} userProfile={user?.profile} onCompare={handleStartComparison} />}
         {currentPage === 'comparison' && comparisonResults.length > 0 && <ComparisonDashboard results={comparisonResults} onBack={() => setCurrentPage('result')} userProfile={user?.profile} />}
+        
+        {/* Admin Routes */}
+        {currentPage === 'admin-users' && <UserList onSelectUser={(id) => { setPendingAction({ page: 'admin-activity', countryId: id }); setCurrentPage('admin-activity'); }} onBack={() => handleLogout()} />}
+        {currentPage === 'admin-activity' && pendingAction?.countryId && <UserActivity userId={pendingAction.countryId} onBack={() => setCurrentPage('admin-users')} />}
+        
         {currentPage === 'countries' && (
           <div className="max-w-7xl mx-auto px-4 py-20 space-y-16 text-center">
             <ITNextLogo hideText className="h-12 justify-center" />

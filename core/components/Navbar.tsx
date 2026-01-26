@@ -21,6 +21,10 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage, user, onLogout
     navItems.splice(1, 0, { id: 'dashboard', label: 'Dashboard' });
   }
 
+  if (user?.role === 'admin') {
+    navItems.push({ id: 'admin-users', label: 'Admin Panel' });
+  }
+
   return (
     <nav className="sticky top-0 z-50 glass-card border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
