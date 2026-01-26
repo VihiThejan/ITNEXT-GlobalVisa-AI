@@ -50,6 +50,24 @@ export const api = {
       return data.result;
     },
 
+    async googleLogin(credential: string): Promise<User | null> {
+      try {
+        const res = await fetch(`${API_URL}/auth/google`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ credential })
+        });
+        if (!res.ok) throw new Error('Google login failed');
+        const data = await res.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.result));
+        return data.result;
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    },
+
     async getCurrentSession(): Promise<User | null> {
       const userStr = localStorage.getItem('user');
       return userStr ? JSON.parse(userStr) : null;

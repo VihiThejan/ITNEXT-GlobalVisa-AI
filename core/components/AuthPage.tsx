@@ -1,7 +1,14 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User } from '../types';
 import { api } from '../services/api';
+
+// Declare Google Sign-In types
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 interface AuthPageProps {
   onAuthSuccess: (user: User) => void;
@@ -19,21 +26,39 @@ export default function AuthPage({ onAuthSuccess, onBack }: AuthPageProps) {
   const [simulatedCode, setSimulatedCode] = useState(''); // To show the user the code in this demo
   const [error, setError] = useState('');
 
-  const handleGoogleLogin = () => {
-    setIsLoading(true);
-    setError('');
-    setTimeout(() => {
-      onAuthSuccess({
-        id: 'google-' + Math.random().toString(36).substr(2, 9),
-        email: 'user@gmail.com',
-        fullName: 'Global Nomad',
-        avatar: 'https://i.pravatar.cc/150?u=google-123',
-        provider: 'google',
-        isVerified: true,
-        assessmentHistory: []
+  useEffect(() => {
+    // Initialize Google Sign-In
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        callback: handleGoogleResponse
       });
+    }
+  }, []);
+
+  const handleGoogleResponse = async (response: any) => {
+    try {
+      setIsLoading(true);
+      setError('');
+      
+      const user = await api.auth.googleLogin(response.credential);
+      if (user) {
+        onAuthSuccess(user);
+      }
+    } catch (err) {
+      console.error('Google auth error:', err);
+      setError('Google sign-in failed. Please try again.');
+    } finally {
       setIsLoading(false);
-    }, 1200);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    if (window.google) {
+      window.google.accounts.id.prompt();
+    } else {
+      setError('Google Sign-In is not loaded. Please refresh the page.');
+    }
   };
 
   const handleEmailAuth = async (e: React.FormEvent) => {
