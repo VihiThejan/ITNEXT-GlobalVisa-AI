@@ -9,7 +9,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware - CORS configuration
-// Middleware - CORS configuration
 const allowedOrigins = [
     'http://localhost:5173',                    // Local frontend development
     'http://localhost:3000',                    // Local backend development
@@ -26,19 +25,28 @@ const isOriginAllowed = (origin: string, allowed: string) => {
     return false;
 };
 
-// Add explicit headers for Vercel
+// Add explicit headers for Vercel - This must come BEFORE other middleware
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    if (origin && (allowedOrigins.some(allowed => isOriginAllowed(origin, allowed)) || origin.endsWith('.pages.dev'))) {
+    
+    // Determine if origin is allowed
+    const isAllowed = origin && (
+        allowedOrigins.some(allowed => isOriginAllowed(origin, allowed)) ||
+        origin.endsWith('.pages.dev') ||
+        origin.endsWith('.cloudflare.com')
+    );
+    
+    if (isAllowed && origin) {
         res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Access-Control-Allow-Credentials', 'true');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+        res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
     }
     
-    // Handle preflight requests
+    // Handle preflight requests immediately
     if (req.method === 'OPTIONS') {
-        return res.status(200).end();
+        return res.status(204).end();
     }
     
     next();
@@ -51,7 +59,8 @@ app.use(cors({
 
         // Check if origin matches any allowed origin (exact or wildcard)
         const isAllowed = allowedOrigins.some(allowed => isOriginAllowed(origin, allowed)) ||
-            origin.endsWith('.pages.dev'); // Explicitly allow all pages.dev subdomains
+            origin.endsWith('.pages.dev') || // Explicitly allow all pages.dev subdomains
+            origin.endsWith('.cloudflare.com');
 
         if (isAllowed) {
             callback(null, true);
@@ -62,7 +71,7 @@ app.use(cors({
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 app.use(express.json());
 
