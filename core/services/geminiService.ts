@@ -4,7 +4,7 @@ import { api } from "./api"; // Assuming we can use the base URL from here or ju
 // api.assessments.save exists, but we need 'generate'. 
 // I'll implement 'generate' here using fetch to the backend.
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://itnext-global-visa-ai.vercel.app/api';
 
 export const generateAssessment = async (profile: UserProfile, countryName: string): Promise<AssessmentResult> => {
   try {
