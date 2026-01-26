@@ -25,25 +25,57 @@ export default function AuthPage({ onAuthSuccess, onBack }: AuthPageProps) {
   const [verificationCode, setVerificationCode] = useState('');
   const [simulatedCode, setSimulatedCode] = useState(''); // To show the user the code in this demo
   const [error, setError] = useState('');
+  const googleButtonRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Initialize Google Sign-In
-    if (window.google) {
-      window.google.accounts.id.initialize({
-        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-        callback: handleGoogleResponse
-      });
-    }
-  }, []);
+    // Initialize Google Sign-In when the component mounts
+    const initializeGoogleSignIn = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+          callback: handleGoogleResponse,
+          auto_select: false,
+        });
+
+        // Render the Google Sign-In button
+        if (googleButtonRef.current) {
+          window.google.accounts.id.renderButton(
+            googleButtonRef.current,
+            {
+              type: 'standard',
+              theme: 'outline',
+              size: 'large',
+              text: isLogin ? 'signin_with' : 'signup_with',
+              width: googleButtonRef.current.offsetWidth,
+            }
+          );
+        }
+      }
+    };
+
+    // Wait for Google SDK to load
+    const checkGoogleLoaded = setInterval(() => {
+      if (window.google) {
+        clearInterval(checkGoogleLoaded);
+        initializeGoogleSignIn();
+      }
+    }, 100);
+
+    return () => clearInterval(checkGoogleLoaded);
+  }, [isLogin]);
 
   const handleGoogleResponse = async (response: any) => {
     try {
       setIsLoading(true);
       setError('');
       
+      console.log('Google response received:', response);
       const user = await api.auth.googleLogin(response.credential);
       if (user) {
+        console.log('User authenticated:', user);
         onAuthSuccess(user);
+      } else {
+        setError('Failed to authenticate with Google');
       }
     } catch (err) {
       console.error('Google auth error:', err);
@@ -54,6 +86,8 @@ export default function AuthPage({ onAuthSuccess, onBack }: AuthPageProps) {
   };
 
   const handleGoogleLogin = () => {
+    // This is now handled by the rendered button
+    // But keep this function for manual trigger if needed
     if (window.google) {
       window.google.accounts.id.prompt();
     } else {
@@ -198,14 +232,8 @@ export default function AuthPage({ onAuthSuccess, onBack }: AuthPageProps) {
         </div>
 
         <div className="bg-white p-10 rounded-[3rem] shadow-2xl border border-slate-100 space-y-8">
-          <button
-            onClick={handleGoogleLogin}
-            disabled={isLoading}
-            className="w-full flex items-center justify-center px-6 py-4 border border-slate-100 rounded-2xl bg-slate-50 text-slate-700 font-bold text-sm hover:bg-white hover:border-blue-200 transition-all space-x-4 shadow-sm disabled:opacity-50 active:scale-95"
-          >
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-6 h-6" alt="Google" />
-            <span>{isLogin ? 'Sign In' : 'Sign Up'} with Google</span>
-          </button>
+          {/* Google Sign-In Button - Rendered by Google SDK */}
+          <div ref={googleButtonRef} className="w-full flex items-center justify-center"></div>
 
           <div className="relative flex items-center">
             <div className="flex-grow border-t border-slate-100"></div>
