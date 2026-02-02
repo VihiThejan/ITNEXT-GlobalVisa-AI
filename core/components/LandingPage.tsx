@@ -194,9 +194,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onCheckEligibility, onSelectC
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
             <div className="hidden lg:block absolute top-16 left-[20%] right-[20%] border-t-2 border-dashed border-orange-100"></div>
             {[
-              { step: '01', title: 'Data Synthesis', icon: 'fa-fingerprint', desc: 'Securely map your educational DNA and professional lineage to global shortage lists.' },
-              { step: '02', title: 'Neural Analysis', icon: 'fa-project-diagram', desc: 'Our ITNEXT-powered Gemini core simulations evaluate millions of pathway variables.' },
-              { step: '03', title: 'Relocation Blueprint', icon: 'fa-compass', desc: 'Receive a cryptographic execution plan from your first visa to full citizenship.' },
+              { step: '01', title: 'Share Your Profile', icon: 'fa-user', desc: 'Tell us about your education, work experience, and career goals in a simple form.' },
+              { step: '02', title: 'AI Finds Matches', icon: 'fa-brain', desc: 'Our AI analyzes your profile and matches you with the best visa pathways worldwide.' },
+              { step: '03', title: 'Get Your Plan', icon: 'fa-map-marked-alt', desc: 'Receive a clear step-by-step roadmap to move to your chosen country.' },
             ].map((s, i) => (
               <div key={i} className="relative z-10 text-center space-y-8 group">
                 <div className="w-28 h-28 bg-white rounded-[2.5rem] shadow-2xl border border-slate-50 flex items-center justify-center mx-auto text-4xl text-[#FF8B60] group-hover:bg-[#FF8B60] group-hover:text-white transition-all duration-700 transform group-hover:-translate-y-3">
