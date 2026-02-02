@@ -63,10 +63,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onCheckEligibility, onSelectC
               <ITNextLogo className="h-16" />
             </div>
             
-            <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-orange-50 border border-orange-100 text-[#FF8B60] text-[10px] font-black tracking-widest uppercase animate-in fade-in zoom-in duration-1000">
+            {/* <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-orange-50 border border-orange-100 text-[#FF8B60] text-[10px] font-black tracking-widest uppercase animate-in fade-in zoom-in duration-1000">
               <span className="flex h-2 w-2 rounded-full bg-[#FF8B60] mr-2 animate-ping"></span>
               <span>Propelling Global Careers with AI</span>
-            </div>
+            </div> */}
             
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-[900] text-slate-900 leading-[0.95] tracking-tighter animate-in slide-in-from-bottom-8 duration-700">
               Relocate. <br />
