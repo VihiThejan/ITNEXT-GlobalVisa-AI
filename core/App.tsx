@@ -45,6 +45,28 @@ const App: React.FC = () => {
     init();
   }, []);
 
+  // Handle navigation after user state changes (fixes auth page staying after login)
+  useEffect(() => {
+    if (user && currentPage === 'auth') {
+      console.log('User authenticated, redirecting from auth page');
+      if (user.role === 'admin') {
+        setCurrentPage('admin-dashboard');
+      } else if (!user.profile) {
+        setCurrentPage('create-profile');
+      } else if (pendingAction) {
+        const { page, countryId } = pendingAction;
+        setPendingAction(null);
+        if (countryId) {
+          const country = COUNTRIES.find(c => c.id === countryId);
+          if (country) setSelectedCountry(country);
+        }
+        setCurrentPage(page);
+      } else {
+        setCurrentPage('dashboard');
+      }
+    }
+  }, [user, currentPage, pendingAction]);
+
   const protectedNavigate = (page: string, countryId?: string) => {
     if (!user) {
       setPendingAction({ page, countryId });
@@ -179,21 +201,10 @@ const App: React.FC = () => {
       const dbUser = await api.auth.login(userData.email);
       let activeUser = dbUser || await api.auth.register(userData);
       setUser(activeUser);
-      
-      // Check if user is admin
-      if (activeUser.role === 'admin') {
-        setCurrentPage('admin-dashboard');
-      } else if (!activeUser.profile) {
-        setCurrentPage('create-profile');
-      } else if (pendingAction) {
-        if (pendingAction.countryId) handleCountryDetail(pendingAction.countryId);
-        else setCurrentPage(pendingAction.page);
-        setPendingAction(null);
-      } else {
-        setCurrentPage('dashboard');
-      }
+      // Navigation is handled by useEffect watching user state
     } catch (err) {
-      alert("Auth error.");
+      console.error('Auth error:', err);
+      alert("Authentication failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
