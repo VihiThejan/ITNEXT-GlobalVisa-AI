@@ -276,6 +276,140 @@ const App: React.FC = () => {
             </div>
           </div>
         )}
+        
+        {currentPage === 'consultants' && (
+          <div className="max-w-7xl mx-auto px-4 py-20 space-y-16">
+            <div className="text-center space-y-6 mb-16">
+              <div className="flex justify-center mb-4">
+                <ITNextLogo hideText className="h-12" />
+              </div>
+              <div className="text-[#FF8B60] font-black text-xs uppercase tracking-[0.4em]">ITNEXT PARTNER NETWORK</div>
+              <h2 className="text-4xl md:text-6xl font-[900] text-slate-900 tracking-tighter">
+                Trusted by <span className="text-[#FF8B60]">Global Leaders.</span>
+              </h2>
+              <p className="text-slate-500 max-w-2xl mx-auto text-lg font-medium">
+                We collaborate with world-class organizations to deliver exceptional immigration and career services.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {[
+                {
+                  name: 'Global Immigration Partners',
+                  logo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&q=80&w=400&h=200',
+                  description: 'Leading immigration consultancy with 20+ years of experience in skilled worker visas.',
+                  specialties: ['Skilled Migration', 'Family Sponsorship', 'Business Visas'],
+                  countries: '45+ Countries',
+                  badge: 'Premium Partner'
+                },
+                {
+                  name: 'EduPath International',
+                  logo: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=400&h=200',
+                  description: 'Expert education counseling for international students seeking global opportunities.',
+                  specialties: ['University Placement', 'Student Visas', 'Credential Assessment'],
+                  countries: '30+ Countries',
+                  badge: 'Education Expert'
+                },
+                {
+                  name: 'TechCareer Global',
+                  logo: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400&h=200',
+                  description: 'Specialized in tech talent relocation and employer-sponsored visa pathways.',
+                  specialties: ['Tech Jobs', 'Employer Sponsorship', 'Permanent Residency'],
+                  countries: '15+ Countries',
+                  badge: 'Tech Specialist'
+                },
+                {
+                  name: 'HealthPro Migration',
+                  logo: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=400&h=200',
+                  description: 'Healthcare professionals migration services with credential recognition support.',
+                  specialties: ['Medical Licensing', 'Healthcare Jobs', 'Skill Recognition'],
+                  countries: '25+ Countries',
+                  badge: 'Healthcare Focus'
+                },
+                {
+                  name: 'Family Reunite Services',
+                  logo: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=400&h=200',
+                  description: 'Compassionate support for family sponsorship and reunion immigration pathways.',
+                  specialties: ['Family Sponsorship', 'Spouse Visas', 'Parent Migration'],
+                  countries: '35+ Countries',
+                  badge: 'Family Expert'
+                },
+                {
+                  name: 'Investor Visa Advisors',
+                  logo: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=400&h=200',
+                  description: 'Premium investment immigration consulting for high-net-worth individuals.',
+                  specialties: ['Investment Visas', 'Golden Visas', 'Business Immigration'],
+                  countries: '20+ Countries',
+                  badge: 'Investment Focus'
+                },
+              ].map((partner, i) => (
+                <div 
+                  key={i}
+                  className="group relative bg-white rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 hover:shadow-orange-100/50 transition-all duration-500 hover:-translate-y-2"
+                >
+                  <div className="relative h-48 overflow-hidden bg-slate-100">
+                    <img 
+                      src={partner.logo} 
+                      alt={partner.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                    <div className="absolute top-4 right-4 bg-[#FF8B60] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl">
+                      {partner.badge}
+                    </div>
+                  </div>
+
+                  <div className="p-8 space-y-6">
+                    <div className="space-y-3">
+                      <h3 className="text-2xl font-black text-slate-900 tracking-tight group-hover:text-[#FF8B60] transition-colors">
+                        {partner.name}
+                      </h3>
+                      <p className="text-slate-500 text-sm leading-relaxed font-medium">
+                        {partner.description}
+                      </p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <i className="fas fa-star text-[#FF8B60] mr-2"></i>
+                        Specialties
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {partner.specialties.map((specialty, idx) => (
+                          <span 
+                            key={idx}
+                            className="bg-orange-50 text-[#FF8B60] text-[10px] font-bold px-3 py-1.5 rounded-xl"
+                          >
+                            {specialty}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                      <div className="flex items-center text-slate-400 text-xs font-bold">
+                        <i className="fas fa-globe mr-2 text-[#FF8B60]"></i>
+                        {partner.countries}
+                      </div>
+                      <button className="text-[#FF8B60] text-xs font-black uppercase tracking-widest hover:underline flex items-center">
+                        Learn More
+                        <i className="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center pt-16">
+              <p className="text-slate-400 text-sm font-medium mb-6">Want to become an ITNEXT partner?</p>
+              <button className="px-10 py-5 rounded-[2rem] border-2 border-[#FF8B60] text-[#FF8B60] font-black text-lg hover:bg-[#FF8B60] hover:text-white transition-all flex items-center mx-auto">
+                Partner With Us
+                <i className="fas fa-handshake ml-3"></i>
+              </button>
+            </div>
+          </div>
+        )}
       </main>
       <footer className="bg-slate-900 text-slate-400 py-24 border-t border-slate-800 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-24 opacity-[0.03] pointer-events-none select-none"><ITNextLogo hideText className="h-64" /></div>
