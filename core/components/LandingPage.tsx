@@ -149,7 +149,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onCheckEligibility, onSelectC
               className="group relative h-[520px] overflow-hidden rounded-[3rem] bg-slate-100 cursor-pointer shadow-2xl transition-all duration-700 hover:shadow-orange-100/50 border border-white"
             >
               <img 
-                src={`https://images.unsplash.com/photo-${country.id === 'ca' ? '1503614472-8c93d56e92ce' : country.id === 'uk' ? '1513635269975-59663e0ac1ad' : country.id === 'au' ? '1523482580672-f109ba8cb9be' : country.id === 'de' ? '1467269204594-9661b134dd2b' : country.id === 'us' ? '1496442226666-8d4d0e62e3e9' : '1506744038136-46273834b3fb'}?auto=format&fit=crop&q=80&w=800`} 
+                src={`https://images.unsplash.com/photo-${country.id === 'ca' ? '1503614472-8c93d56e92ce' : country.id === 'uk' ? '1513635269975-59663e0ac1ad' : country.id === 'au' ? '1523482580672-f109ba8cb9be' : country.id === 'de' ? '1467269204594-9661b134dd2b' : country.id === 'us' ? '1485738422979-f5c462d49f74' : '1506744038136-46273834b3fb'}?auto=format&fit=crop&q=80&w=800`} 
                 alt={country.name}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
               />
