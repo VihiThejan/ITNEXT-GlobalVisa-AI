@@ -40,27 +40,168 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
     if (!ctx) return;
     const width = 1200;
     const padding = 80;
-    const stepSpacing = 160;
+    const stepSpacing = 200; // Increased for better spacing
     const headerHeight = 350;
-    const breakdownLineHeight = 30;
+    const breakdownLineHeight = 35; // Increased to prevent text cutoff
     const breakdownTitleHeight = 60;
-    const strengthHeight = result.matchBreakdown.strengths.length * breakdownLineHeight + (result.matchBreakdown.strengths.length > 0 ? breakdownTitleHeight : 0);
-    const weaknessHeight = result.matchBreakdown.weaknesses.length * breakdownLineHeight + (result.matchBreakdown.weaknesses.length > 0 ? breakdownTitleHeight : 0);
-    const improvementHeight = result.matchBreakdown.improvementPoints.length * breakdownLineHeight + (result.matchBreakdown.improvementPoints.length > 0 ? breakdownTitleHeight : 0);
-    const breakdownSectionHeightTotal = strengthHeight + weaknessHeight + improvementHeight + 100;
-    const adviceSectionHeight = 220;
+    
+    // Calculate dynamic heights based on content
+    const maxBreakdownItems = Math.max(
+      result.matchBreakdown.strengths.length,
+      result.matchBreakdown.weaknesses.length,
+      result.matchBreakdown.improvementPoints.length
+    );
+    const breakdownSectionHeightTotal = maxBreakdownItems * breakdownLineHeight + 150;
     const footerHeight = 100;
-    const totalHeight = headerHeight + (result.roadmap.length * stepSpacing) + breakdownSectionHeightTotal + adviceSectionHeight + footerHeight;
+    const totalHeight = headerHeight + (result.roadmap.length * stepSpacing) + breakdownSectionHeightTotal + footerHeight;
     canvas.width = width;
     canvas.height = totalHeight;
+    
+    // Background
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, width, totalHeight);
+    
+    // Header
     ctx.fillStyle = '#FF8B60';
-    ctx.font = 'black 32px Inter, sans-serif';
+    ctx.font = 'bold 32px Arial, sans-serif';
     ctx.fillText('ITNEXT', padding, 70);
+    
     ctx.fillStyle = '#0f172a';
-    ctx.font = 'black 64px Inter, sans-serif';
-    ctx.fillText('Relocation Blueprint', padding, 170);
+    ctx.font = 'bold 56px Arial, sans-serif';
+    ctx.fillText('Relocation Blueprint', padding, 150);
+    
+    // Country and Score
+    ctx.font = 'bold 36px Arial, sans-serif';
+    ctx.fillText(result.countryName || result.targetCountry || 'Country', padding, 220);
+    
+    ctx.fillStyle = result.overallScore >= 80 ? '#10b981' : result.overallScore >= 50 ? '#f59e0b' : '#ef4444';
+    ctx.font = 'bold 48px Arial, sans-serif';
+    ctx.fillText(`${result.overallScore}% Match`, width - padding - 200, 220);
+    
+    ctx.fillStyle = '#64748b';
+    ctx.font = '16px Arial, sans-serif';
+    ctx.fillText(`Status: ${result.status}`, padding, 260);
+    
+    let yPos = headerHeight;
+    
+    // Roadmap Section
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText('Settlement Roadmap', padding, yPos);
+    yPos += 50;
+    
+    result.roadmap?.forEach((step, index) => {
+      // Step circle
+      ctx.beginPath();
+      ctx.arc(padding + 15, yPos + 10, 10, 0, 2 * Math.PI);
+      ctx.fillStyle = '#2563eb';
+      ctx.fill();
+      
+      // Step title
+      ctx.fillStyle = '#0f172a';
+      ctx.font = 'bold 20px Arial, sans-serif';
+      ctx.fillText(`${index + 1}. ${step.title}`, padding + 50, yPos + 15);
+      
+      // Duration
+      ctx.fillStyle = '#2563eb';
+      ctx.font = '14px Arial, sans-serif';
+      ctx.fillText(step.duration, width - padding - 150, yPos + 15);
+      
+      // Description
+      ctx.fillStyle = '#64748b';
+      ctx.font = '16px Arial, sans-serif';
+      const words = step.description.split(' ');
+      let line = '';
+      let lineY = yPos + 45;
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > width - padding - 150 && n > 0) {
+          ctx.fillText(line, padding + 50, lineY);
+          line = words[n] + ' ';
+          lineY += 25;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, padding + 50, lineY);
+      
+      yPos += stepSpacing;
+    });
+    
+    yPos += 40;
+    
+    // Match Breakdown Section
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText('Profile Match Analysis', padding, yPos);
+    yPos += 50;
+    
+    const colWidth = (width - 2 * padding) / 3;
+    const maxColWidth = colWidth - 20; // Leave some margin
+    
+    // Helper function to wrap text
+    const wrapText = (text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
+      const words = text.split(' ');
+      let line = '';
+      let currentY = y;
+      
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        
+        if (metrics.width > maxWidth && n > 0) {
+          ctx.fillText(line.trim(), x, currentY);
+          line = words[n] + ' ';
+          currentY += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line.trim(), x, currentY);
+      return currentY + lineHeight;
+    };
+    
+    // Strengths
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 16px Arial, sans-serif';
+    ctx.fillText('✓ STRENGTHS', padding, yPos);
+    let tempY = yPos + 30;
+    ctx.fillStyle = '#64748b';
+    ctx.font = '13px Arial, sans-serif';
+    result.matchBreakdown.strengths.forEach((s) => {
+      tempY = wrapText(`• ${s}`, padding, tempY, maxColWidth, 22);
+    });
+    
+    // Weaknesses
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 16px Arial, sans-serif';
+    ctx.fillText('✗ FRICTION POINTS', padding + colWidth, yPos);
+    tempY = yPos + 30;
+    ctx.fillStyle = '#64748b';
+    ctx.font = '13px Arial, sans-serif';
+    result.matchBreakdown.weaknesses.forEach((w) => {
+      tempY = wrapText(`• ${w}`, padding + colWidth, tempY, maxColWidth, 22);
+    });
+    
+    // Improvements
+    ctx.fillStyle = '#2563eb';
+    ctx.font = 'bold 16px Arial, sans-serif';
+    ctx.fillText('💡 IMPROVEMENTS', padding + colWidth * 2, yPos);
+    tempY = yPos + 30;
+    ctx.fillStyle = '#64748b';
+    ctx.font = '13px Arial, sans-serif';
+    result.matchBreakdown.improvementPoints.forEach((p) => {
+      tempY = wrapText(`• ${p}`, padding + colWidth * 2, tempY, maxColWidth, 22);
+    });
+    
+    // Footer
+    yPos = totalHeight - 60;
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '14px Arial, sans-serif';
+    ctx.fillText('Generated by ITNEXT GlobalVisa Platform', padding, yPos);
+    ctx.fillText(new Date().toLocaleDateString(), width - padding - 150, yPos);
+    
     const link = document.createElement('a');
     link.download = `ITNEXT-Blueprint-${(result.countryName || result.targetCountry || 'Unknown').replace(/\s+/g, '-')}.png`;
     link.href = canvas.toDataURL('image/png');
