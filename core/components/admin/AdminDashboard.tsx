@@ -125,7 +125,7 @@ const AdminDashboard: React.FC<Props> = ({ onNavigate }) => {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <button
               onClick={() => onNavigate('admin-users')}
               className="bg-gradient-to-r from-[#FF8B60] to-orange-500 text-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all group"
@@ -136,6 +136,19 @@ const AdminDashboard: React.FC<Props> = ({ onNavigate }) => {
                   <p className="text-white/80 mt-2">View and manage all users</p>
                 </div>
                 <span className="text-5xl group-hover:scale-110 transition-transform">👤</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => onNavigate('admin-countries')}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all group"
+            >
+              <div className="flex items-center justify-between">
+                <div className="text-left">
+                  <h3 className="text-2xl font-black uppercase">Country Management</h3>
+                  <p className="text-white/80 mt-2">Add and manage countries</p>
+                </div>
+                <span className="text-5xl group-hover:scale-110 transition-transform">🌍</span>
               </div>
             </button>
 

@@ -1,5 +1,16 @@
 import express from 'express';
-import { getAllUsers, searchUsers, getUserActivity, getAnalytics } from '../controllers/adminController';
+import { 
+  getAllUsers, 
+  searchUsers, 
+  getUserActivity, 
+  getAnalytics,
+  getAllCountries,
+  getCountryById,
+  createCountry,
+  updateCountry,
+  deleteCountry,
+  toggleCountryStatus
+} from '../controllers/adminController';
 
 const router = express.Router();
 
@@ -8,5 +19,13 @@ router.get('/users', getAllUsers);
 router.get('/users/search', searchUsers);
 router.get('/users/:id/activity', getUserActivity);
 router.get('/analytics', getAnalytics);
+
+// Country management routes
+router.get('/countries', getAllCountries);
+router.get('/countries/:id', getCountryById);
+router.post('/countries', createCountry);
+router.put('/countries/:id', updateCountry);
+router.delete('/countries/:id', deleteCountry);
+router.patch('/countries/:id/toggle', toggleCountryStatus);
 
 export default router;

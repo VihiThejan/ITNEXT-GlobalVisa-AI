@@ -26,6 +26,7 @@ export interface Country {
   studentInfo?: string;
   jobInfo?: string;
   visas: VisaCategory[];
+  isActive?: boolean;
 }
 
 export interface VisaCategory {

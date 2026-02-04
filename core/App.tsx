@@ -17,6 +17,7 @@ import UserList from './components/admin/UserList';
 import UserActivity from './components/admin/UserActivity';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/AdminDashboard';
+import CountryManagement from './components/admin/CountryManagement';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -230,6 +231,7 @@ const App: React.FC = () => {
         {currentPage === 'admin-dashboard' && <AdminDashboard onNavigate={setCurrentPage} />}
         {currentPage === 'admin-users' && <UserList onSelectUser={(id) => { setPendingAction({ page: 'admin-activity', countryId: id }); setCurrentPage('admin-activity'); }} onBack={() => setCurrentPage('admin-dashboard')} />}
         {currentPage === 'admin-activity' && pendingAction?.countryId && <UserActivity userId={pendingAction.countryId} onBack={() => setCurrentPage('admin-users')} />}
+        {currentPage === 'admin-countries' && <CountryManagement />}
         {currentPage === 'admin-settings' && (
           <div className="max-w-4xl mx-auto">
             <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
