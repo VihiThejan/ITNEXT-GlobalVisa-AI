@@ -166,3 +166,140 @@ STRICT CONSTRAINTS:
         throw error;
     }
 };
+
+export const generateCountryData = async (countryName: string) => {
+    console.log('=== Starting Country Data Generation ===');
+    console.log('Country:', countryName);
+
+    try {
+        const apiKey = process.env.GEMINI_API_KEY;
+        if (!apiKey) {
+            throw new Error("GEMINI_API_KEY environment variable not set");
+        }
+
+        const genAI = new GoogleGenAI({ apiKey });
+
+        const prompt = `You are an expert immigration and global mobility consultant. Generate comprehensive country data for "${countryName}" for an immigration platform.
+
+CRITICAL: For the "flag" field, you MUST use the actual Unicode emoji flag for ${countryName}. For example:
+- Australia: 🇦🇺
+- United States: 🇺🇸
+- United Kingdom: 🇬🇧
+- Canada: 🇨🇦
+- Germany: 🇩🇪
+
+Please provide accurate, up-to-date information about ${countryName} in the following JSON format:
+
+{
+  "name": "Official country name",
+  "flag": "ACTUAL Unicode emoji flag (e.g., 🇦🇺 for Australia, NOT the text 'AU')",
+  "description": "Brief compelling description (1-2 sentences) about why this country is attractive for immigrants",
+  "economy": "Overview of the economy, GDP, main industries, and economic stability (2-3 sentences)",
+  "jobMarket": "Current job market situation, in-demand sectors, and opportunities for immigrants (2-3 sentences)",
+  "education": "Education system overview, top universities, and opportunities for international students (2-3 sentences)",
+  "prBenefits": "Benefits of permanent residency/citizenship, timeline, and key advantages (2-3 sentences)",
+  "history": "Brief historical context relevant to immigration (2-3 sentences)",
+  "geography": "Geographic overview including location, climate, and landscape (2-3 sentences)",
+  "politics": "Political system and stability (1-2 sentences)",
+  "studentInfo": "Specific information for international students including work permits and pathways (2-3 sentences)",
+  "jobInfo": "Specific information for job seekers including visa programs and opportunities (2-3 sentences)",
+  "visas": [
+    {
+      "id": "unique-id (e.g., ca-ee, uk-sw, au-sc)",
+      "name": "Visa category name",
+      "purpose": "Brief purpose of this visa (1 sentence)",
+      "eligibility": ["Eligibility criterion 1", "Eligibility criterion 2", "Eligibility criterion 3"],
+      "qualifications": "Required qualifications summary",
+      "experience": "Required work experience",
+      "language": "Language requirements (e.g., IELTS 7.0, TOEFL 100)",
+      "finance": "Financial requirements",
+      "processingTime": "Average processing time",
+      "settlementPotential": true/false (whether this visa leads to permanent residency)
+    }
+  ]
+}
+
+Important:
+- Include at least 3-5 major visa categories for ${countryName}
+- Use accurate, current information as of 2026
+- Be specific about visa requirements and processes
+- Use proper emoji for the country flag
+- Focus on information relevant to skilled workers, students, and families
+- Make descriptions compelling but factual
+
+Return ONLY the JSON object, no additional text or markdown formatting.`;
+
+        console.log('Sending request to Gemini...');
+        
+        const response = await genAI.models.generateContent({
+            model: "gemini-2.5-flash-lite",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: Type.OBJECT,
+                    properties: {
+                        name: { type: Type.STRING },
+                        flag: { type: Type.STRING },
+                        description: { type: Type.STRING },
+                        economy: { type: Type.STRING },
+                        jobMarket: { type: Type.STRING },
+                        education: { type: Type.STRING },
+                        prBenefits: { type: Type.STRING },
+                        history: { type: Type.STRING },
+                        geography: { type: Type.STRING },
+                        politics: { type: Type.STRING },
+                        studentInfo: { type: Type.STRING },
+                        jobInfo: { type: Type.STRING },
+                        visas: {
+                            type: Type.ARRAY,
+                            items: {
+                                type: Type.OBJECT,
+                                properties: {
+                                    id: { type: Type.STRING },
+                                    name: { type: Type.STRING },
+                                    purpose: { type: Type.STRING },
+                                    eligibility: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                    qualifications: { type: Type.STRING },
+                                    experience: { type: Type.STRING },
+                                    language: { type: Type.STRING },
+                                    finance: { type: Type.STRING },
+                                    processingTime: { type: Type.STRING },
+                                    settlementPotential: { type: Type.BOOLEAN }
+                                },
+                                required: ["id", "name", "purpose", "eligibility", "qualifications", "experience", "language", "finance", "processingTime", "settlementPotential"]
+                            }
+                        }
+                    },
+                    required: ["name", "flag", "description", "economy", "jobMarket", "education", "prBenefits", "visas"]
+                }
+            }
+        });
+
+        console.log('Received response from Gemini');
+
+        const textData = typeof (response as any).text === 'function' ? (response as any).text() : response.text;
+        console.log('Text data extracted, length:', textData?.length || 0);
+
+        const finalJson = textData || "{}";
+        const data = JSON.parse(finalJson);
+
+        if (!data || !data.name) {
+            console.error('Parsed data:', data);
+            throw new Error("Invalid country data generated");
+        }
+
+        console.log('=== Country Data Generated Successfully ===');
+        console.log('Country name:', data.name);
+        console.log('Visas generated:', data.visas?.length || 0);
+        
+        return data;
+
+    } catch (error) {
+        console.error("=== Gemini Country Generation Error ===");
+        console.error("Error type:", error?.constructor?.name);
+        console.error("Error message:", error instanceof Error ? error.message : String(error));
+        console.error("Full error:", error);
+        throw error;
+    }
+};

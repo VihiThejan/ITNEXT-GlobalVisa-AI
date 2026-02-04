@@ -9,7 +9,8 @@ import {
   createCountry,
   updateCountry,
   deleteCountry,
-  toggleCountryStatus
+  toggleCountryStatus,
+  generateCountryInfo
 } from '../controllers/adminController';
 
 const router = express.Router();
@@ -24,6 +25,7 @@ router.get('/analytics', getAnalytics);
 router.get('/countries', getAllCountries);
 router.get('/countries/:id', getCountryById);
 router.post('/countries', createCountry);
+router.post('/countries/generate', generateCountryInfo);
 router.put('/countries/:id', updateCountry);
 router.delete('/countries/:id', deleteCountry);
 router.patch('/countries/:id/toggle', toggleCountryStatus);

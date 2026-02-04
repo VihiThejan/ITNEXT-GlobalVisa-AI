@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import Country from '../models/Country';
+import { generateCountryData } from '../services/gemini';
 
 export const getAllUsers = async (req: Request, res: Response) => {
     console.log('=== GET ALL USERS ===');
@@ -242,5 +243,25 @@ export const toggleCountryStatus = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Toggle Country Status Error:', error);
         res.status(500).json({ message: 'Failed to toggle country status', error: error instanceof Error ? error.message : String(error) });
+    }
+};
+
+export const generateCountryInfo = async (req: Request, res: Response) => {
+    console.log('=== GENERATE COUNTRY INFO ===');
+    const { countryName } = req.body;
+
+    if (!countryName) {
+        return res.status(400).json({ message: 'Country name is required' });
+    }
+
+    try {
+        console.log('Generating data for:', countryName);
+        const countryData = await generateCountryData(countryName);
+        
+        console.log('Country data generated successfully');
+        res.status(200).json({ countryData });
+    } catch (error) {
+        console.error('Generate Country Info Error:', error);
+        res.status(500).json({ message: 'Failed to generate country data', error: error instanceof Error ? error.message : String(error) });
     }
 };

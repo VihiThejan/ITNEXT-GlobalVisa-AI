@@ -270,6 +270,24 @@ export const api = {
       const data = await res.json();
       console.log('Country status toggled successfully');
       return data.country;
+    },
+
+    async generateCountryData(countryName: string) {
+      console.log('Generating country data for:', countryName);
+      const res = await fetch(`${API_URL}/admin/countries/generate`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ countryName })
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Failed to generate country data');
+      }
+
+      const data = await res.json();
+      console.log('Country data generated successfully');
+      return data.countryData;
     }
   }
 };

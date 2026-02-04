@@ -2,11 +2,74 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import { Country, VisaCategory } from '../../types';
 
+// Popular countries for AI generation
+const POPULAR_COUNTRIES = [
+  { name: 'Australia', flag: '🇦🇺' },
+  { name: 'Austria', flag: '🇦🇹' },
+  { name: 'Belgium', flag: '🇧🇪' },
+  { name: 'Brazil', flag: '🇧🇷' },
+  { name: 'Canada', flag: '🇨🇦' },
+  { name: 'Chile', flag: '🇨🇱' },
+  { name: 'China', flag: '🇨🇳' },
+  { name: 'Costa Rica', flag: '🇨🇷' },
+  { name: 'Croatia', flag: '🇭🇷' },
+  { name: 'Cyprus', flag: '🇨🇾' },
+  { name: 'Czech Republic', flag: '🇨🇿' },
+  { name: 'Denmark', flag: '🇩🇰' },
+  { name: 'Estonia', flag: '🇪🇪' },
+  { name: 'Finland', flag: '🇫🇮' },
+  { name: 'France', flag: '🇫🇷' },
+  { name: 'Germany', flag: '🇩🇪' },
+  { name: 'Greece', flag: '🇬🇷' },
+  { name: 'Hong Kong', flag: '🇭🇰' },
+  { name: 'Hungary', flag: '🇭🇺' },
+  { name: 'Iceland', flag: '🇮🇸' },
+  { name: 'India', flag: '🇮🇳' },
+  { name: 'Indonesia', flag: '🇮🇩' },
+  { name: 'Ireland', flag: '🇮🇪' },
+  { name: 'Israel', flag: '🇮🇱' },
+  { name: 'Italy', flag: '🇮🇹' },
+  { name: 'Japan', flag: '🇯🇵' },
+  { name: 'Latvia', flag: '🇱🇻' },
+  { name: 'Lithuania', flag: '🇱🇹' },
+  { name: 'Luxembourg', flag: '🇱🇺' },
+  { name: 'Malaysia', flag: '🇲🇾' },
+  { name: 'Malta', flag: '🇲🇹' },
+  { name: 'Mexico', flag: '🇲🇽' },
+  { name: 'Netherlands', flag: '🇳🇱' },
+  { name: 'New Zealand', flag: '🇳🇿' },
+  { name: 'Norway', flag: '🇳🇴' },
+  { name: 'Panama', flag: '🇵🇦' },
+  { name: 'Philippines', flag: '🇵🇭' },
+  { name: 'Poland', flag: '🇵🇱' },
+  { name: 'Portugal', flag: '🇵🇹' },
+  { name: 'Romania', flag: '🇷🇴' },
+  { name: 'Saudi Arabia', flag: '🇸🇦' },
+  { name: 'Singapore', flag: '🇸🇬' },
+  { name: 'Slovakia', flag: '🇸🇰' },
+  { name: 'Slovenia', flag: '🇸🇮' },
+  { name: 'South Africa', flag: '🇿🇦' },
+  { name: 'South Korea', flag: '🇰🇷' },
+  { name: 'Spain', flag: '🇪🇸' },
+  { name: 'Sweden', flag: '🇸🇪' },
+  { name: 'Switzerland', flag: '🇨🇭' },
+  { name: 'Taiwan', flag: '🇹🇼' },
+  { name: 'Thailand', flag: '🇹🇭' },
+  { name: 'Turkey', flag: '🇹🇷' },
+  { name: 'United Arab Emirates', flag: '🇦🇪' },
+  { name: 'United Kingdom', flag: '🇬🇧' },
+  { name: 'United States', flag: '🇺🇸' },
+  { name: 'Uruguay', flag: '🇺🇾' },
+  { name: 'Vietnam', flag: '🇻🇳' },
+];
+
 const CountryManagement: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingCountry, setEditingCountry] = useState<Country | null>(null);
+  const [generatingData, setGeneratingData] = useState(false);
+  const [selectedCountryName, setSelectedCountryName] = useState('');
   const [formData, setFormData] = useState<Partial<Country>>({
     id: '',
     name: '',
@@ -131,6 +194,7 @@ const CountryManagement: React.FC = () => {
       
       setShowForm(false);
       setEditingCountry(null);
+      setSelectedCountryName('');
       resetForm();
       fetchCountries();
     } catch (err: any) {
@@ -138,9 +202,48 @@ const CountryManagement: React.FC = () => {
     }
   };
 
+  const handleCountrySelect = async (countryName: string) => {
+    if (!countryName) return;
+    
+    setSelectedCountryName(countryName);
+    setGeneratingData(true);
+    
+    try {
+      showMessage('success', 'Generating country data with AI... Please wait.');
+      const countryData = await api.admin.generateCountryData(countryName);
+      
+      // Auto-fill form with generated data
+      setFormData({
+        id: countryData.id || countryName.toLowerCase().substring(0, 2),
+        name: countryData.name,
+        flag: countryData.flag,
+        description: countryData.description,
+        economy: countryData.economy,
+        jobMarket: countryData.jobMarket,
+        education: countryData.education,
+        prBenefits: countryData.prBenefits,
+        history: countryData.history || '',
+        geography: countryData.geography || '',
+        politics: countryData.politics || '',
+        studentInfo: countryData.studentInfo || '',
+        jobInfo: countryData.jobInfo || '',
+        visas: countryData.visas || [],
+        isActive: true
+      });
+      
+      showMessage('success', 'Country data generated! You can now edit and save.');
+    } catch (err: any) {
+      showMessage('error', err.message || 'Failed to generate country data');
+      console.error('Country generation error:', err);
+    } finally {
+      setGeneratingData(false);
+    }
+  };
+
   const handleEdit = (country: Country) => {
     setEditingCountry(country);
     setFormData(country);
+    setSelectedCountryName('');
     setShowForm(true);
   };
 
@@ -196,6 +299,7 @@ const CountryManagement: React.FC = () => {
       processingTime: '',
       settlementPotential: false
     });
+    setSelectedCountryName('');
   };
 
   if (loading) {
@@ -259,6 +363,50 @@ const CountryManagement: React.FC = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* AI Country Selector - Only for new countries */}
+              {!editingCountry && (
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-2xl border-2 border-blue-200 space-y-4">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
+                      <i className="fas fa-magic text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-black text-slate-900">AI-Powered Country Generator</h3>
+                      <p className="text-xs text-slate-600">Select a country and let AI fill in all the details</p>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">Select Country</label>
+                    <select
+                      value={selectedCountryName}
+                      onChange={(e) => handleCountrySelect(e.target.value)}
+                      disabled={generatingData}
+                      className="w-full px-4 py-3 rounded-xl border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none bg-white disabled:bg-slate-100 font-medium"
+                    >
+                      <option value="">-- Choose a country to generate data --</option>
+                      {POPULAR_COUNTRIES.map((country) => (
+                        <option key={country.name} value={country.name}>
+                          {country.flag} {country.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {generatingData && (
+                    <div className="flex items-center justify-center space-x-3 py-4">
+                      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                      <div className="text-blue-700 font-bold">Generating country data with AI...</div>
+                    </div>
+                  )}
+                  
+                  <div className="text-xs text-slate-600 bg-white/50 p-3 rounded-lg">
+                    <i className="fas fa-info-circle text-blue-500 mr-2"></i>
+                    After generation, you can edit any field before saving. All data is AI-generated and should be reviewed.
+                  </div>
+                </div>
+              )}
+
               {/* Basic Information */}
               <div className="space-y-4">
                 <h3 className="text-xl font-black text-slate-900 border-b pb-2">Basic Information</h3>
@@ -271,7 +419,7 @@ const CountryManagement: React.FC = () => {
                       required
                       value={formData.id}
                       onChange={(e) => handleInputChange('id', e.target.value)}
-                      disabled={!!editingCountry}
+                      disabled={!!editingCountry || generatingData}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#FF8B60] focus:ring-2 focus:ring-[#FF8B60]/20 outline-none disabled:bg-slate-100"
                       placeholder="e.g., us, uk, ca"
                     />
@@ -283,7 +431,8 @@ const CountryManagement: React.FC = () => {
                       required
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#FF8B60] focus:ring-2 focus:ring-[#FF8B60]/20 outline-none"
+                      disabled={generatingData}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#FF8B60] focus:ring-2 focus:ring-[#FF8B60]/20 outline-none disabled:bg-slate-100"
                       placeholder="e.g., United States"
                     />
                   </div>
