@@ -106,11 +106,11 @@ export const api = {
   },
 
   assessments: {
-    async save(_userId: string, assessment: AssessmentResult): Promise<void> {
+    async save(_userId: string, assessment: AssessmentResult): Promise<User | null> {
       const user = await api.auth.getCurrentSession();
       if (!user || !user.id) {
         console.error('No user session found, cannot save assessment');
-        return;
+        return null;
       }
 
       console.log('Saving assessment to backend for user:', user.id);
@@ -122,8 +122,16 @@ export const api = {
 
       if (!res.ok) {
         console.error('Failed to save assessment');
+        return null;
       } else {
+        const data = await res.json();
         console.log('Assessment saved successfully');
+        // Update local storage with fresh user data
+        if (data.result) {
+          localStorage.setItem('user', JSON.stringify(data.result));
+          return data.result;
+        }
+        return null;
       }
     }
   },

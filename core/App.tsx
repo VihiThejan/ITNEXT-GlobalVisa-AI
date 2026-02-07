@@ -30,6 +30,10 @@ const App: React.FC = () => {
   const [dbConnected, setDbConnected] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  useEffect(() => {
     const init = async () => {
       const activeSession = await api.auth.getCurrentSession();
       if (activeSession) {
@@ -153,8 +157,17 @@ const App: React.FC = () => {
     try {
       const enrichedResult = await runSingleAssessment(countryName, visaCategory, languageTest, score, extraInfo);
       const updatedProfile: UserProfile = { ...user.profile, languageScores: { test: languageTest, score: score } };
+      
+      // Update profile and get updated user
       await api.profile.update(user.id, updatedProfile);
-      await api.assessments.save(user.id, enrichedResult);
+      
+      // Save assessment and get final updated user with history
+      const updatedUser = await api.assessments.save(user.id, enrichedResult);
+      
+      if (updatedUser) {
+        setUser(updatedUser);
+      }
+      
       setAssessmentResult(enrichedResult);
       setCurrentPage('result');
     } catch (err) {
