@@ -67,6 +67,29 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Database Connection - Connect BEFORE mounting routes
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI as string, {
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
+        });
+        console.log('MongoDB Connected');
+    } catch (err) {
+        console.error('MongoDB Connection Error:', err);
+        // Don't throw - allow app to start even if DB fails initially
+    }
+};
+
+// Connect to database immediately
+connectDB();
+
+// Also handle reconnection for serverless environments
+mongoose.connection.on('disconnected', () => {
+    console.log('MongoDB disconnected. Attempting to reconnect...');
+    connectDB();
+});
+
 import authRoutes from './routes/authRoutes';
 import activityRoutes from './routes/activityRoutes';
 import assessmentRoutes from './routes/assessmentRoutes';
@@ -93,11 +116,6 @@ app.get('/api/test', (req, res) => {
     console.log('=== TEST ENDPOINT HIT ===');
     res.json({ success: true, message: 'Backend is responding!', timestamp: new Date().toISOString() });
 });
-
-// Database Connection
-mongoose.connect(process.env.MONGODB_URI as string)
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
 
 // Start Server
 // Start Server
