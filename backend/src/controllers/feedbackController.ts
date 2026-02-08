@@ -37,6 +37,28 @@ export const submitFeedback = async (req: Request, res: Response) => {
     }
 };
 
+// User gets their own feedback history
+export const getUserFeedback = async (req: Request, res: Response) => {
+    console.log('=== GET USER FEEDBACK ===');
+    const { userId } = req.params;
+
+    try {
+        const feedbacks = await Feedback.find({ user: userId })
+            .populate('replies.admin', 'fullName email')
+            .sort({ createdAt: -1 });
+
+        console.log(`Found ${feedbacks.length} feedback items for user ${userId}`);
+        res.status(200).json({ feedbacks });
+
+    } catch (error) {
+        console.error('Get User Feedback Error:', error);
+        res.status(500).json({
+            message: 'Failed to fetch feedback',
+            error: error instanceof Error ? error.message : String(error)
+        });
+    }
+};
+
 // Admin gets all feedback
 export const getAllFeedback = async (req: Request, res: Response) => {
     console.log('=== GET ALL FEEDBACK ===');

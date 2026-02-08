@@ -20,6 +20,7 @@ import AdminDashboard from './components/admin/AdminDashboard';
 import CountryManagement from './components/admin/CountryManagement';
 import FeedbackManagement from './components/admin/FeedbackManagement';
 import FeedbackForm from './components/FeedbackForm';
+import FeedbackPage from './components/FeedbackPage';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -283,22 +284,7 @@ const App: React.FC = () => {
         {currentPage === 'edit-profile' && user?.profile && <ProfileWizard onComplete={handleProfileComplete} onCancel={() => setCurrentPage('dashboard')} initialData={user.profile} />}
         {currentPage === 'dashboard' && user?.profile && <UserDashboard user={user} isLoading={isLoading} onCheckEligibility={handleEligibilityCheck} onViewAssessment={(res) => { setAssessmentResult(res); setCurrentPage('result'); }} onCompareHistory={handleCompareHistory} onEditProfile={() => setCurrentPage('edit-profile')} />}
         {currentPage === 'feedback' && user && (
-          <div className="max-w-4xl mx-auto px-4 py-20">
-            <div className="text-center mb-10">
-              <h1 className="text-4xl font-black text-slate-900 mb-4">Send Us Your Feedback</h1>
-              <p className="text-slate-600">We'd love to hear from you! Your feedback helps us improve.</p>
-            </div>
-            <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
-              <FeedbackForm 
-                user={user} 
-                onClose={() => setCurrentPage('dashboard')}
-                onSubmitSuccess={() => {
-                  alert('Thank you for your feedback! We appreciate your input.');
-                  setCurrentPage('dashboard');
-                }}
-              />
-            </div>
-          </div>
+          <FeedbackPage user={user} />
         )}
         {currentPage === 'country-detail' && selectedCountry && <CountryDetail country={selectedCountry} onBack={() => setCurrentPage('countries')} onCheckEligibility={() => protectedNavigate('dashboard')} />}
         {currentPage === 'result' && assessmentResult && <AssessmentDashboard result={assessmentResult} onReset={() => setCurrentPage('dashboard')} userProfile={user?.profile} onCompare={handleStartComparison} />}

@@ -1,6 +1,7 @@
 import express from 'express';
 import {
     submitFeedback,
+    getUserFeedback,
     getAllFeedback,
     replyToFeedback,
     updateFeedbackStatus,
@@ -11,6 +12,7 @@ const router = express.Router();
 
 // User routes
 router.post('/submit', submitFeedback);
+router.get('/user/:userId', getUserFeedback);
 
 // Admin routes
 router.get('/admin/all', getAllFeedback);
