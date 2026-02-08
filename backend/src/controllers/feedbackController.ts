@@ -12,12 +12,7 @@ export const submitFeedback = async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'User ID and message are required' });
         }
 
-        // Verify user exists
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
+        // Create feedback - user reference will be validated by Mongoose schema
         const feedback = new Feedback({
             user: userId,
             message,
