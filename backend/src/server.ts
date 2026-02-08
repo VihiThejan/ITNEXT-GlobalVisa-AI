@@ -13,6 +13,7 @@ const allowedOrigins = [
     'http://localhost:5173',                    // Local frontend development
     'http://localhost:3000',                    // Local backend development
     'https://itnext-globalvisa-ai.pages.dev',   // Production frontend (Cloudflare Pages)
+    'https://itnext-globalvisa.org',            // Production frontend (Custom domain)
 ];
 
 // Helper to check if origin matches wildcard pattern
@@ -28,37 +29,37 @@ const isOriginAllowed = (origin: string, allowed: string) => {
 // Add explicit headers for Vercel - This must come BEFORE other middleware
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    
+
     console.log(`[CORS] ${req.method} ${req.path} from origin: ${origin}`);
-    
+
     // Determine if origin is allowed (more permissive for deployment)
     const isAllowed = !origin || // No origin (curl, etc.)
         allowedOrigins.some(allowed => isOriginAllowed(origin, allowed)) ||
         origin.endsWith('.pages.dev') ||
         origin.endsWith('.cloudflare.com') ||
         origin.includes('vercel.app'); // Allow vercel preview URLs
-    
+
     if (isAllowed && origin) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     } else if (!origin) {
         res.setHeader('Access-Control-Allow-Origin', '*');
     }
-    
+
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
     res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
-    
+
     // Handle preflight requests immediately
     if (req.method === 'OPTIONS') {
         console.log('[CORS] Preflight request handled');
         return res.status(204).end();
     }
-    
+
     next();
 });
 
-app.use(cors({  
+app.use(cors({
     origin: true, // Accept all origins in the middleware layer
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
