@@ -31,6 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage, user, onLogout
         <div className="flex justify-between h-20 items-center">
           <div className="flex items-center cursor-pointer group" onClick={() => onNavigate('home')}>
             <ITNextLogo className="h-10 group-hover:scale-105 transition-transform" />
+            <span className="ml-2 px-2 py-0.5 bg-orange-100 text-orange-600 text-[9px] font-black uppercase tracking-wider rounded-md">BETA</span>
             <div className="ml-3 h-8 w-[1px] bg-slate-200 hidden sm:block"></div>
             <span className="ml-3 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hidden sm:block leading-tight">
               GlobalVisa<br/>Platform
