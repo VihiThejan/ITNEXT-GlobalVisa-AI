@@ -15,6 +15,7 @@ const AdminLayout: React.FC<Props> = ({ children, currentPage, onNavigate, onLog
     { id: 'admin-dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'admin-users', label: 'Users', icon: '👥' },
     { id: 'admin-countries', label: 'Countries', icon: '🌍' },
+    { id: 'admin-feedback', label: 'Feedback', icon: '💬' },
     { id: 'admin-settings', label: 'Settings', icon: '⚙️' },
   ];
 

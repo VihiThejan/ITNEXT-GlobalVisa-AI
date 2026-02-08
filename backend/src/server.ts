@@ -73,6 +73,7 @@ import assessmentRoutes from './routes/assessmentRoutes';
 import userRoutes from './routes/userRoutes';
 import profileRoutes from './routes/profileRoutes';
 import adminRoutes from './routes/adminRoutes';
+import feedbackRoutes from './routes/feedbackRoutes';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/activity', activityRoutes);
@@ -80,6 +81,7 @@ app.use('/api/assessments', assessmentRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { User, AssessmentResult } from '../types';
 import EligibilityCheck from './EligibilityCheck';
+import FeedbackForm from './FeedbackForm';
 
 interface UserDashboardProps {
   user: User;
@@ -27,6 +28,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
   onEditProfile 
 }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [showFeedback, setShowFeedback] = useState(false);
   const profile = user.profile!;
   const history = user.assessmentHistory || [];
 
@@ -147,6 +149,14 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
             >
               Update Profile Details
             </button>
+
+            <button 
+              onClick={() => setShowFeedback(true)}
+              className="w-full py-4 text-sm font-bold text-[#FF8B60] bg-orange-50 rounded-2xl hover:bg-orange-100 transition-all flex items-center justify-center space-x-2"
+            >
+              <i className="fas fa-comment-dots"></i>
+              <span>Send Feedback</span>
+            </button>
           </div>
 
           <div className="bg-slate-900 text-white p-8 rounded-[2.5rem] shadow-xl space-y-6">
@@ -241,6 +251,17 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Feedback Modal */}
+      {showFeedback && (
+        <FeedbackForm
+          user={user}
+          onClose={() => setShowFeedback(false)}
+          onSubmitSuccess={() => {
+            alert('Thank you for your feedback! We appreciate your input.');
+          }}
+        />
+      )}
     </div>
   );
 };
