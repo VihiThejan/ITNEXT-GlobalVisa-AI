@@ -131,7 +131,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
           {/* section 1: Basic Identity */}
           <div className="space-y-6">
             <h3 className="text-lg font-bold text-slate-900 flex items-center">
-              <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs mr-3">1</span>
+              <span className="w-8 h-8 rounded-full bg-orange-100 text-[#FF8B60] flex items-center justify-center text-xs mr-3">1</span>
               Personal Identity
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -141,7 +141,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   name="firstName" 
                   value={profile.firstName} 
                   onChange={handleChange} 
-                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.firstName ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
+                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.firstName ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all`} 
                   placeholder="John" 
                 />
               </div>
@@ -151,7 +151,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   name="lastName" 
                   value={profile.lastName} 
                   onChange={handleChange} 
-                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.lastName ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
+                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.lastName ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all`} 
                   placeholder="Doe" 
                 />
               </div>
@@ -164,7 +164,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   name="nationality" 
                   value={profile.nationality} 
                   onChange={handleChange} 
-                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.nationality ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
+                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.nationality ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all`} 
                   placeholder="e.g. Indian" 
                 />
               </div>
@@ -174,7 +174,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   name="country" 
                   value={profile.country} 
                   onChange={handleChange} 
-                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.country ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
+                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.country ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all`} 
                   placeholder="e.g. United Kingdom" 
                 />
               </div>
@@ -187,7 +187,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   name="countryCode" 
                   value={profile.countryCode} 
                   onChange={handleChange} 
-                  className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+                  className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer"
                 >
                   {COUNTRY_CODES.map(item => (
                     <option key={item.code + item.country} value={item.code}>
@@ -202,7 +202,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   name="mobileNumber" 
                   value={profile.mobileNumber} 
                   onChange={handleChange} 
-                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.mobileNumber ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
+                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.mobileNumber ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all`} 
                   placeholder="1234567890" 
                 />
               </div>
@@ -211,13 +211,13 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Age Range</label>
-                <select name="ageRange" value={profile.ageRange} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer">
+                <select name="ageRange" value={profile.ageRange} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer">
                   {AGE_RANGES.map(range => <option key={range} value={range}>{range}</option>)}
                 </select>
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Marital Status</label>
-                <select name="maritalStatus" value={profile.maritalStatus} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer">
+                <select name="maritalStatus" value={profile.maritalStatus} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer">
                   {MARITAL_STATUSES.map(status => <option key={status} value={status}>{status}</option>)}
                 </select>
               </div>
@@ -229,7 +229,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   value={profile.dependents} 
                   onChange={handleChange} 
                   min="0" 
-                  className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                  className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all" 
                 />
               </div>
             </div>
@@ -238,14 +238,14 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
           {/* section 2: Academic */}
           <div className="space-y-6 border-t border-slate-50 pt-8">
             <h3 className="text-lg font-bold text-slate-900 flex items-center">
-              <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs mr-3">2</span>
+              <span className="w-8 h-8 rounded-full bg-orange-100 text-[#FF8B60] flex items-center justify-center text-xs mr-3">2</span>
               Academic Credentials
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Highest Education</label>
-                <select name="educationLevel" value={profile.educationLevel} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer">
+                <select name="educationLevel" value={profile.educationLevel} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer">
                   <option>Secondary School</option>
                   <option>Diploma</option>
                   <option>Bachelors</option>
@@ -259,7 +259,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   name="fieldOfStudy" 
                   value={profile.fieldOfStudy} 
                   onChange={handleChange} 
-                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.fieldOfStudy ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
+                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.fieldOfStudy ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all`} 
                   placeholder="e.g. Software Engineering" 
                 />
               </div>
@@ -270,7 +270,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                 name="gpa" 
                 value={profile.gpa} 
                 onChange={handleChange} 
-                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all" 
                 placeholder="e.g. 3.8/4.0 or 85%" 
               />
             </div>
@@ -279,7 +279,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
           {/* section 3: Professional */}
           <div className="space-y-6 border-t border-slate-50 pt-8">
             <h3 className="text-lg font-bold text-slate-900 flex items-center">
-              <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs mr-3">3</span>
+              <span className="w-8 h-8 rounded-full bg-orange-100 text-[#FF8B60] flex items-center justify-center text-xs mr-3">3</span>
               Professional Profile
             </h3>
 
@@ -290,7 +290,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   name="jobTitle" 
                   value={profile.jobTitle} 
                   onChange={handleChange} 
-                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.jobTitle ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
+                  className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.jobTitle ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all`} 
                   placeholder="e.g. Senior Developer" 
                 />
               </div>
@@ -302,7 +302,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                   value={profile.yearsOfExperience} 
                   onChange={handleChange} 
                   min="0" 
-                  className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                  className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all" 
                 />
               </div>
             </div>
@@ -312,7 +312,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
               <input 
                 value={skillsInput} 
                 onChange={handleSkillsChange} 
-                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all" 
                 placeholder="e.g. React, Node.js, Python, Project Management" 
               />
             </div>
@@ -323,7 +323,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
                 name="professionalBackground" 
                 value={profile.professionalBackground} 
                 onChange={handleChange} 
-                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.professionalBackground ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all min-h-[100px]`} 
+                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.professionalBackground ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all min-h-[100px]`} 
                 placeholder="Briefly describe your work history and expertise..."
               />
             </div>
@@ -332,20 +332,20 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
           {/* section 4: Intent */}
           <div className="space-y-6 border-t border-slate-50 pt-8">
             <h3 className="text-lg font-bold text-slate-900 flex items-center">
-              <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs mr-3">4</span>
+              <span className="w-8 h-8 rounded-full bg-orange-100 text-[#FF8B60] flex items-center justify-center text-xs mr-3">4</span>
               Relocation Intentions
             </h3>
 
             <div className="space-y-2">
               <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Primary Visa Intention</label>
-              <select name="visaIntent" value={profile.visaIntent} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer">
+              <select name="visaIntent" value={profile.visaIntent} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer">
                 {VISA_INTENTS.map(intent => <option key={intent} value={intent}>{intent}</option>)}
               </select>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button type="submit" className="flex-grow bg-blue-600 text-white py-5 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-100 transform active:scale-[0.98]">
+            <button type="submit" className="flex-grow bg-[#FF8B60] text-white py-5 rounded-2xl font-black text-lg hover:bg-[#e07a55] transition-all shadow-xl shadow-orange-100 transform active:scale-[0.98]">
               {isEditMode ? 'Save Changes' : 'Register & Access Dashboard'}
             </button>
             {isEditMode && onCancel && (

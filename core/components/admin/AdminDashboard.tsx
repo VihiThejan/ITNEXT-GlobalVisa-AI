@@ -141,7 +141,7 @@ const AdminDashboard: React.FC<Props> = ({ onNavigate }) => {
 
             <button
               onClick={() => onNavigate('admin-countries')}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all group"
+              className="bg-gradient-to-r from-[#FF8B60] to-[#e07a55] text-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all group"
             >
               <div className="flex items-center justify-between">
                 <div className="text-left">

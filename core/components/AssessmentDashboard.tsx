@@ -230,7 +230,7 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
         <div className="flex gap-4">
           <button 
             onClick={handlePrint}
-            className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl flex items-center space-x-3"
+            className="bg-[#FF8B60] text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#e07a55] transition-all shadow-xl flex items-center space-x-3"
           >
             <i className="fas fa-print"></i>
             <span>Print Strategy Dossier</span>
@@ -282,7 +282,7 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
             </div>
             <button 
               onClick={onReset}
-              className="w-16 h-16 rounded-3xl bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-100 transition-all flex items-center justify-center shadow-inner"
+              className="w-16 h-16 rounded-3xl bg-slate-50 text-slate-400 hover:text-[#FF8B60] hover:bg-orange-100 transition-all flex items-center justify-center shadow-inner"
             >
               <i className="fas fa-redo text-xl"></i>
             </button>
@@ -336,16 +336,16 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
               </ul>
             </div>
 
-            <div className="bg-blue-50/50 border border-blue-100 p-8 rounded-[2.5rem] space-y-6">
-              <div className="flex items-center space-x-3 text-blue-700 font-black text-xs uppercase tracking-[0.2em]">
+            <div className="bg-orange-50/50 border border-orange-100 p-8 rounded-[2.5rem] space-y-6">
+              <div className="flex items-center space-x-3 text-[#FF8B60] font-black text-xs uppercase tracking-[0.2em]">
                 <i className="fas fa-lightbulb"></i>
                 <span>Strategic Improvements</span>
               </div>
               <ul className="space-y-4">
                 {analysis.improvements.map((imp, i) => (
                   <li key={i} className="flex items-start group">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center mr-3 mt-0.5">
-                      <i className="fas fa-arrow-up text-[10px] text-blue-600"></i>
+                    <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center mr-3 mt-0.5">
+                      <i className="fas fa-arrow-up text-[10px] text-[#FF8B60]"></i>
                     </div>
                     <span className="text-sm font-bold text-slate-700 leading-snug">{imp}</span>
                   </li>
@@ -360,7 +360,7 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
           <div className="lg:col-span-2 space-y-10">
             <section className="bg-white p-10 rounded-[3rem] shadow-xl border border-slate-100 space-y-8">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                <div className="w-12 h-12 bg-[#FF8B60] rounded-2xl flex items-center justify-center text-white shadow-lg">
                   <i className="fas fa-route text-xl"></i>
                 </div>
                 <div>
@@ -373,11 +373,11 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
                 <div className="absolute left-4 top-2 bottom-2 w-0.5 bg-slate-100"></div>
                 {roadmapArray.map((step, i) => (
                   <div key={i} className="relative group">
-                    <div className="absolute -left-[38px] top-1 w-5 h-5 rounded-full bg-white border-4 border-blue-600 z-10 shadow-sm"></div>
+                    <div className="absolute -left-[38px] top-1 w-5 h-5 rounded-full bg-white border-4 border-[#FF8B60] z-10 shadow-sm"></div>
                     <div className="bg-slate-50/50 p-6 rounded-3xl border border-transparent hover:border-slate-100 hover:bg-white transition-all">
                       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-3">
                         <h4 className="font-black text-lg text-slate-900">{step.title}</h4>
-                        <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-widest">{step.duration}</span>
+                        <span className="text-[10px] font-black text-[#FF8B60] bg-orange-50 px-3 py-1 rounded-full uppercase tracking-widest">{step.duration}</span>
                       </div>
                       <p className="text-slate-600 text-sm leading-relaxed mb-4">{step.description}</p>
                       <div className="flex flex-wrap gap-2">
@@ -395,7 +395,7 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
 
             <section className="bg-slate-900 text-white p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
               <h3 className="text-xl font-black mb-6 flex items-center">
-                <i className="fas fa-brain text-blue-400 mr-3"></i> Expert Strategy Advice
+                <i className="fas fa-brain text-[#FF8B60] mr-3"></i> Expert Strategy Advice
               </h3>
               <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10">
                 <p className="text-slate-300 text-lg leading-relaxed italic">"{result.aiAdvice}"</p>
@@ -407,14 +407,14 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
           <div className="space-y-10">
             <section className="bg-white p-8 rounded-[3rem] shadow-xl border border-slate-100 space-y-6">
               <h3 className="text-xl font-black text-slate-900 flex items-center">
-                <i className="fas fa-passport text-blue-600 mr-3"></i> Eligible Pathways
+                <i className="fas fa-passport text-[#FF8B60] mr-3"></i> Eligible Pathways
               </h3>
               <div className="space-y-4">
                 {pathwaysArray.map((visa, i) => (
-                  <a key={i} href={visa.officialLink} target="_blank" rel="noopener noreferrer" className="block p-5 rounded-3xl border border-slate-50 bg-slate-50/50 space-y-3 hover:bg-white hover:border-blue-100 transition-all group">
+                  <a key={i} href={visa.officialLink} target="_blank" rel="noopener noreferrer" className="block p-5 rounded-3xl border border-slate-50 bg-slate-50/50 space-y-3 hover:bg-white hover:border-orange-100 transition-all group">
                     <div className="flex justify-between items-start">
-                      <span className="font-black text-slate-900 group-hover:text-blue-600 transition-colors">{visa.visaName}</span>
-                      <span className="text-xs font-black text-blue-600">{visa.matchScore}% Match</span>
+                      <span className="font-black text-slate-900 group-hover:text-[#FF8B60] transition-colors">{visa.visaName}</span>
+                      <span className="text-xs font-black text-[#FF8B60]">{visa.matchScore}% Match</span>
                     </div>
                     <p className="text-xs text-slate-500 leading-relaxed">{visa.reason}</p>
                   </a>
@@ -469,7 +469,7 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
               </ul>
             </div>
             <div className="space-y-3">
-              <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Optimizations</p>
+              <p className="text-[10px] font-black text-[#FF8B60] uppercase tracking-widest">Optimizations</p>
               <ul className="space-y-2 text-xs text-slate-700 font-bold list-disc pl-4">
                 {analysis.improvements.map((s, i) => <li key={i}>{s}</li>)}
               </ul>
@@ -493,7 +493,7 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
         </div>
 
         <div className="bg-slate-900 text-white p-8 rounded-3xl mt-12">
-           <p className="text-[10px] font-black text-blue-400 uppercase tracking-[0.3em] mb-4">Final Strategic Directive</p>
+           <p className="text-[10px] font-black text-[#FF8B60] uppercase tracking-[0.3em] mb-4">Final Strategic Directive</p>
            <p className="text-xl font-medium leading-relaxed italic">"{result.aiAdvice}"</p>
         </div>
 

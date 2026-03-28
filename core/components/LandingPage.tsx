@@ -64,7 +64,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
           ))}
           <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-slate-50"></div>
           <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#FF8B60]/5 rounded-full blur-[120px] animate-pulse"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-400/5 rounded-full blur-[120px] animate-pulse delay-1000"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#FF8B60]/5 rounded-full blur-[120px] animate-pulse delay-1000"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -119,7 +119,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           <div onClick={onFindUni} className="bg-white p-10 rounded-[3rem] shadow-xl border border-slate-100 space-y-6 hover:shadow-2xl transition-all group cursor-pointer">
-            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 text-2xl group-hover:scale-110 transition-transform">
+            <div className="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center text-[#FF8B60] text-2xl group-hover:scale-110 transition-transform">
               <i className="fas fa-university"></i>
             </div>
             <h3 className="text-2xl font-black text-slate-900">Global University Matching</h3>
@@ -165,7 +165,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
             { label: 'Destinations', val: '10+', icon: 'fa-globe-asia', color: 'text-[#FF8B60]', bg: 'bg-orange-50' },
-            { label: 'Visa Models', val: '150+', icon: 'fa-layer-group', color: 'text-blue-600', bg: 'bg-blue-50' },
+            { label: 'Visa Models', val: '150+', icon: 'fa-layer-group', color: 'text-[#FF8B60]', bg: 'bg-orange-50' },
             { label: 'AI Match Accuracy', val: '99.8%', icon: 'fa-brain', color: 'text-emerald-600', bg: 'bg-emerald-50' },
             { label: 'Processed Paths', val: '42k+', icon: 'fa-microchip', color: 'text-indigo-600', bg: 'bg-indigo-50' },
           ].map((stat, i) => (

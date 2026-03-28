@@ -57,7 +57,7 @@ const Countries: React.FC<CountriesProps> = ({ onNavigate }) => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 text-[#FF8B60] rounded-full text-xs font-black uppercase tracking-widest"
           >
             <Globe className="w-4 h-4" />
             Global Destinations
@@ -68,7 +68,7 @@ const Countries: React.FC<CountriesProps> = ({ onNavigate }) => {
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-6xl font-black text-slate-900 tracking-tight"
           >
-            Explore Your <span className="text-blue-600">Next Chapter</span>
+            Explore Your <span className="text-[#FF8B60]">Next Chapter</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -90,7 +90,7 @@ const Countries: React.FC<CountriesProps> = ({ onNavigate }) => {
               <input 
                 type="text"
                 placeholder="Search by country, benefit, or description..."
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-500/20 font-medium text-slate-900 transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-[#FF8B60]/20 font-medium text-slate-900 transition-all"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -124,7 +124,7 @@ const Countries: React.FC<CountriesProps> = ({ onNavigate }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
               onClick={() => onNavigate('country-detail', country.id)}
-              className="group bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-100/50 transition-all cursor-pointer flex flex-col"
+              className="group bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden hover:border-[#FF8B60] hover:shadow-2xl hover:shadow-orange-100/50 transition-all cursor-pointer flex flex-col"
             >
               <div className="relative h-48 overflow-hidden">
                 <img 
@@ -174,11 +174,11 @@ const Countries: React.FC<CountriesProps> = ({ onNavigate }) => {
                         <img src={`https://i.pravatar.cc/100?u=${country.id}${i}`} alt="User" />
                       </div>
                     ))}
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-blue-50 flex items-center justify-center text-[10px] font-bold text-blue-600">
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-orange-50 flex items-center justify-center text-[10px] font-bold text-[#FF8B60]">
                       +12k
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-blue-600 font-bold text-sm group-hover:translate-x-1 transition-transform">
+                  <div className="flex items-center gap-2 text-[#FF8B60] font-bold text-sm group-hover:translate-x-1 transition-transform">
                     Explore Pathways <ChevronRight className="w-4 h-4" />
                   </div>
                 </div>

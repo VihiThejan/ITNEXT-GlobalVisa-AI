@@ -365,9 +365,9 @@ const CountryManagement: React.FC = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* AI Country Selector - Only for new countries */}
               {!editingCountry && (
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-2xl border-2 border-blue-200 space-y-4">
+                <div className="bg-gradient-to-r from-orange-50 to-purple-50 p-6 rounded-2xl border-2 border-orange-200 space-y-4">
                   <div className="flex items-center space-x-3 mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF8B60] to-purple-500 flex items-center justify-center text-white">
                       <i className="fas fa-magic text-xl"></i>
                     </div>
                     <div>
@@ -382,7 +382,7 @@ const CountryManagement: React.FC = () => {
                       value={selectedCountryName}
                       onChange={(e) => handleCountrySelect(e.target.value)}
                       disabled={generatingData}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none bg-white disabled:bg-slate-100 font-medium"
+                      className="w-full px-4 py-3 rounded-xl border-2 border-orange-200 focus:border-[#FF8B60] focus:ring-2 focus:ring-[#FF8B60]/20 outline-none bg-white disabled:bg-slate-100 font-medium"
                     >
                       <option value="">-- Choose a country to generate data --</option>
                       {POPULAR_COUNTRIES.map((country) => (
@@ -395,13 +395,13 @@ const CountryManagement: React.FC = () => {
 
                   {generatingData && (
                     <div className="flex items-center justify-center space-x-3 py-4">
-                      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                      <div className="text-blue-700 font-bold">Generating country data with AI...</div>
+                      <div className="w-8 h-8 border-4 border-[#FF8B60] border-t-transparent rounded-full animate-spin"></div>
+                      <div className="text-[#FF8B60] font-bold">Generating country data with AI...</div>
                     </div>
                   )}
                   
                   <div className="text-xs text-slate-600 bg-white/50 p-3 rounded-lg">
-                    <i className="fas fa-info-circle text-blue-500 mr-2"></i>
+                    <i className="fas fa-info-circle text-[#FF8B60] mr-2"></i>
                     After generation, you can edit any field before saving. All data is AI-generated and should be reviewed.
                   </div>
                 </div>
@@ -601,7 +601,7 @@ const CountryManagement: React.FC = () => {
                 )}
 
                 {/* Add Visa Form */}
-                <div className="bg-blue-50 p-6 rounded-xl space-y-4">
+                <div className="bg-orange-50 p-6 rounded-xl space-y-4">
                   <h4 className="font-bold text-slate-900">Add Visa Category</h4>
                   
                   <div className="grid grid-cols-2 gap-4">
@@ -802,7 +802,7 @@ const CountryManagement: React.FC = () => {
               <div className="flex gap-2 pt-4 border-t">
                 <button
                   onClick={() => handleEdit(country)}
-                  className="flex-1 px-4 py-2 bg-blue-50 text-blue-700 rounded-xl font-bold hover:bg-blue-100 text-sm"
+                  className="flex-1 px-4 py-2 bg-orange-50 text-[#FF8B60] rounded-xl font-bold hover:bg-orange-100 text-sm"
                 >
                   <i className="fas fa-edit mr-2"></i>
                   Edit

@@ -51,7 +51,7 @@ const UserFeedbackHistory: React.FC<Props> = ({ user }) => {
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
       pending: 'bg-yellow-100 text-yellow-700',
-      replied: 'bg-blue-100 text-blue-700',
+      replied: 'bg-orange-100 text-[#FF8B60]',
       closed: 'bg-slate-100 text-slate-700'
     };
     return colors[status] || colors.pending;
@@ -60,7 +60,7 @@ const UserFeedbackHistory: React.FC<Props> = ({ user }) => {
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       bug: 'bg-red-100 text-red-700',
-      feature: 'bg-blue-100 text-blue-700',
+      feature: 'bg-orange-100 text-[#FF8B60]',
       general: 'bg-slate-100 text-slate-700',
       other: 'bg-purple-100 text-purple-700'
     };
@@ -121,7 +121,7 @@ const UserFeedbackHistory: React.FC<Props> = ({ user }) => {
             <p className="text-sm text-slate-700 mb-3">{feedback.message}</p>
 
             {feedback.replies.length > 0 && (
-              <div className="flex items-center space-x-2 text-xs text-blue-600">
+              <div className="flex items-center space-x-2 text-xs text-[#FF8B60]">
                 <i className="fas fa-reply"></i>
                 <span className="font-semibold">
                   {feedback.replies.length} {feedback.replies.length === 1 ? 'reply' : 'replies'} from admin
@@ -142,15 +142,15 @@ const UserFeedbackHistory: React.FC<Props> = ({ user }) => {
             <div className="px-6 pb-6 space-y-3 border-t border-slate-200 pt-4">
               <h4 className="text-xs font-black text-slate-600 uppercase">Admin Replies</h4>
               {feedback.replies.map((reply, idx) => (
-                <div key={idx} className="bg-blue-50 rounded-xl p-4 space-y-2">
+                <div key={idx} className="bg-orange-50 rounded-xl p-4 space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-[10px] font-bold">
+                      <div className="w-6 h-6 bg-[#FF8B60] rounded-full flex items-center justify-center text-white text-[10px] font-bold">
                         {reply.admin.fullName[0]}
                       </div>
-                      <p className="text-xs font-bold text-blue-900">{reply.admin.fullName}</p>
+                      <p className="text-xs font-bold text-slate-900">{reply.admin.fullName}</p>
                     </div>
-                    <p className="text-[9px] text-blue-600">
+                    <p className="text-[9px] text-[#FF8B60]">
                       {new Date(reply.timestamp).toLocaleString()}
                     </p>
                   </div>

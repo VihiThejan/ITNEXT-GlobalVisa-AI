@@ -141,7 +141,7 @@ const UserActivity: React.FC<UserActivityProps> = ({ userId, onBack }) => {
                               </div>
                             )}
                             {visa.officialLink && (
-                              <a href={visa.officialLink} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:underline">
+                              <a href={visa.officialLink} target="_blank" rel="noopener noreferrer" className="text-xs text-[#FF8B60] hover:underline">
                                 Official Link →
                               </a>
                             )}
@@ -155,8 +155,8 @@ const UserActivity: React.FC<UserActivityProps> = ({ userId, onBack }) => {
                       <div>
                         <h4 className="font-bold text-slate-900 mb-3">Settlement Roadmap</h4>
                         {assessment.roadmap.map((step: any, rIndex: number) => (
-                          <div key={rIndex} className="mb-4 p-4 bg-blue-50 rounded-xl">
-                            <h5 className="font-bold text-blue-900 mb-1">{step.title}</h5>
+                          <div key={rIndex} className="mb-4 p-4 bg-orange-50 rounded-xl">
+                            <h5 className="font-bold text-slate-900 mb-1">{step.title}</h5>
                             <p className="text-sm text-slate-700 mb-2">{step.description}</p>
                             <p className="text-xs text-slate-500 mb-2">Duration: {step.duration}</p>
                             {step.requirements && step.requirements.length > 0 && (

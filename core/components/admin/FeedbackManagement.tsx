@@ -138,7 +138,7 @@ const FeedbackManagement: React.FC<Props> = ({ user }) => {
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       bug: 'bg-red-100 text-red-700',
-      feature: 'bg-blue-100 text-blue-700',
+      feature: 'bg-orange-100 text-[#FF8B60]',
       general: 'bg-slate-100 text-slate-700',
       other: 'bg-purple-100 text-purple-700'
     };
@@ -148,7 +148,7 @@ const FeedbackManagement: React.FC<Props> = ({ user }) => {
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
       pending: 'bg-yellow-100 text-yellow-700',
-      replied: 'bg-blue-100 text-blue-700',
+      replied: 'bg-orange-100 text-[#FF8B60]',
       closed: 'bg-slate-100 text-slate-700'
     };
     return colors[status] || colors.pending;
@@ -223,7 +223,7 @@ const FeedbackManagement: React.FC<Props> = ({ user }) => {
                 </div>
                 <p className="text-sm text-slate-700 line-clamp-2">{feedback.message}</p>
                 {feedback.replies.length > 0 && (
-                  <div className="mt-3 flex items-center space-x-2 text-xs text-blue-600">
+                  <div className="mt-3 flex items-center space-x-2 text-xs text-[#FF8B60]">
                     <i className="fas fa-reply"></i>
                     <span className="font-semibold">{feedback.replies.length} {feedback.replies.length === 1 ? 'reply' : 'replies'}</span>
                   </div>
@@ -277,7 +277,7 @@ const FeedbackManagement: React.FC<Props> = ({ user }) => {
                 </select>
                 <a
                   href={`mailto:${selectedFeedback.user.email}?subject=Re: Your Feedback&body=Hi ${selectedFeedback.user.fullName},%0D%0A%0D%0AThank you for your feedback.%0D%0A%0D%0A`}
-                  className="ml-auto px-3 py-1 bg-blue-500 text-white rounded-lg text-xs font-bold hover:bg-blue-600 transition-all flex items-center space-x-1"
+                  className="ml-auto px-3 py-1 bg-[#FF8B60] text-white rounded-lg text-xs font-bold hover:bg-[#FF8B60] transition-all flex items-center space-x-1"
                 >
                   <i className="fas fa-envelope"></i>
                   <span>Email User</span>
@@ -289,10 +289,10 @@ const FeedbackManagement: React.FC<Props> = ({ user }) => {
                 <div className="space-y-3">
                   <h3 className="text-xs font-black text-slate-600 uppercase">Previous Replies</h3>
                   {selectedFeedback.replies.map((reply, idx) => (
-                    <div key={idx} className="bg-blue-50 rounded-xl p-4 space-y-2">
+                    <div key={idx} className="bg-orange-50 rounded-xl p-4 space-y-2">
                       <div className="flex items-center justify-between">
-                        <p className="text-xs font-bold text-blue-900">{reply.admin.fullName}</p>
-                        <p className="text-[9px] text-blue-600">{new Date(reply.timestamp).toLocaleString()}</p>
+                        <p className="text-xs font-bold text-slate-900">{reply.admin.fullName}</p>
+                        <p className="text-[9px] text-[#FF8B60]">{new Date(reply.timestamp).toLocaleString()}</p>
                       </div>
                       <p className="text-sm text-slate-700">{reply.message}</p>
                     </div>

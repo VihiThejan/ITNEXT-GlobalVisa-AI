@@ -11,13 +11,13 @@ const CloudflareAnalytics: React.FC<Props> = ({ cloudflareToken }) => {
         <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter mb-6">
           🌐 Cloudflare Analytics
         </h2>
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-          <h3 className="text-lg font-bold text-blue-900 mb-3">Setup Required</h3>
+        <div className="bg-orange-50 border border-orange-200 rounded-xl p-6">
+          <h3 className="text-lg font-bold text-slate-900 mb-3">Setup Required</h3>
           <p className="text-sm text-slate-700 mb-4">
             To enable Cloudflare Web Analytics:
           </p>
           <ol className="list-decimal list-inside text-sm text-slate-700 space-y-2 mb-4">
-            <li>Go to <a href="https://dash.cloudflare.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-bold">Cloudflare Dashboard</a></li>
+            <li>Go to <a href="https://dash.cloudflare.com" target="_blank" rel="noopener noreferrer" className="text-[#FF8B60] hover:underline font-bold">Cloudflare Dashboard</a></li>
             <li>Navigate to <strong>Web Analytics</strong></li>
             <li>Add your site and copy the token</li>
             <li>Update <code className="bg-slate-200 px-2 py-1 rounded text-xs font-mono">index.html</code> with your token</li>

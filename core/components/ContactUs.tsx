@@ -61,12 +61,12 @@ const ContactUs: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center space-x-6">
-                <div className="w-14 h-14 bg-white rounded-2xl shadow-xl flex items-center justify-center text-blue-600 text-xl">
+                <div className="w-14 h-14 bg-white rounded-2xl shadow-xl flex items-center justify-center text-[#FF8B60] text-xl">
                   <i className="fas fa-phone"></i>
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Call Us</p>
-                  <a href="tel:+447424436454" className="text-xl font-bold text-slate-900 hover:text-blue-600 transition-colors">+447424436454</a>
+                  <a href="tel:+447424436454" className="text-xl font-bold text-slate-900 hover:text-[#FF8B60] transition-colors">+447424436454</a>
                 </div>
               </div>
               <div className="flex items-center space-x-6">

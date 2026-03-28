@@ -84,7 +84,7 @@ const Partners: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[10px] font-black tracking-widest uppercase"
+            className="inline-flex items-center px-4 py-1.5 rounded-full bg-orange-50 border border-orange-100 text-[#FF8B60] text-[10px] font-black tracking-widest uppercase"
           >
             Our Ecosystem
           </motion.div>
@@ -188,7 +188,7 @@ const Partners: React.FC = () => {
         >
           <div className="absolute top-0 left-0 w-full h-full opacity-10">
             <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#FF8B60] rounded-full blur-[100px]" />
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600 rounded-full blur-[100px]" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#FF8B60] rounded-full blur-[100px]" />
           </div>
           
           <div className="relative z-10 space-y-4">

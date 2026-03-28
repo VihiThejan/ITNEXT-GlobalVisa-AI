@@ -224,7 +224,7 @@ const FindMyUni: React.FC<FindMyUniProps> = ({ profile, onSearchComplete }) => {
     <div className="max-w-7xl mx-auto px-4 py-12 space-y-12 pb-32">
       <div className="flex flex-col md:flex-row justify-between items-end gap-6">
         <div className="space-y-4">
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[10px] font-black tracking-widest uppercase">
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-orange-50 border border-orange-100 text-[#FF8B60] text-[10px] font-black tracking-widest uppercase">
             Product: FindMyUni
           </div>
           <h1 className="text-5xl font-black text-slate-900 tracking-tighter">Academic <span className="text-[#FF8B60]">Destinations.</span></h1>
@@ -388,7 +388,7 @@ const FindMyUni: React.FC<FindMyUniProps> = ({ profile, onSearchComplete }) => {
                 return (
                   <div key={uni.id} className={`bg-white rounded-[2.5rem] p-8 shadow-xl border-2 transition-all transform hover:-translate-y-2 flex flex-col ${isSelected ? 'border-[#FF8B60] ring-4 ring-orange-50' : 'border-slate-100'}`}>
                     <div className="flex justify-between items-start mb-6">
-                      <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 text-3xl font-black">
+                      <div className="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center text-[#FF8B60] text-3xl font-black">
                         {uni.name[0]}
                       </div>
                       <div className="flex flex-col items-end">

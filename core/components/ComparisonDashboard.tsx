@@ -125,7 +125,7 @@ const ComparisonDashboard: React.FC<ComparisonDashboardProps> = ({ results, onBa
                 <ul className="space-y-2">{res.matchBreakdown.strengths.slice(0, 3).map((s, j) => (<li key={j} className="text-sm text-slate-600 font-medium">• {s}</li>))}</ul>
               </div>
               <div className="space-y-4">
-                <h4 className="font-black text-slate-900 text-sm uppercase tracking-widest flex items-center"><i className="fas fa-lightbulb text-blue-500 mr-3"></i> Growth Area</h4>
+                <h4 className="font-black text-slate-900 text-sm uppercase tracking-widest flex items-center"><i className="fas fa-lightbulb text-[#FF8B60] mr-3"></i> Growth Area</h4>
                 <ul className="space-y-2">{res.matchBreakdown.improvementPoints.slice(0, 3).map((p, j) => (<li key={j} className="text-sm text-slate-600 font-medium">• {p}</li>))}</ul>
               </div>
             </div>

@@ -50,7 +50,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({ country, onBack, onCheckE
           {/* Detailed Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <section className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 space-y-4">
-              <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 text-xl">
+              <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-[#FF8B60] text-xl">
                 <i className="fas fa-history"></i>
               </div>
               <h3 className="text-2xl font-bold text-slate-900">Historical Legacy</h3>
@@ -76,7 +76,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({ country, onBack, onCheckE
                 href={officialSourceUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline"
+                className="text-[10px] font-black text-[#FF8B60] uppercase tracking-widest hover:underline"
               >
                 Official Government Source <i className="fas fa-external-link-alt ml-1"></i>
               </a>
@@ -88,7 +88,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({ country, onBack, onCheckE
                   <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
                     <div className="space-y-1">
                       <h4 className="text-2xl font-black text-slate-900">{visa.name}</h4>
-                      <p className="text-blue-600 font-bold text-sm">{visa.purpose}</p>
+                      <p className="text-[#FF8B60] font-bold text-sm">{visa.purpose}</p>
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="text-right">
@@ -148,15 +148,15 @@ const CountryDetail: React.FC<CountryDetailProps> = ({ country, onBack, onCheckE
 
           <section className="bg-slate-900 text-white p-10 rounded-[2.5rem] shadow-xl space-y-6">
             <h3 className="text-3xl font-bold flex items-center">
-              <i className="fas fa-chart-line text-blue-400 mr-4"></i> Economic & Geographical Importance
+              <i className="fas fa-chart-line text-[#FF8B60] mr-4"></i> Economic & Geographical Importance
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <p className="text-blue-400 font-black uppercase text-xs tracking-widest">Global Positioning</p>
+                <p className="text-[#FF8B60] font-black uppercase text-xs tracking-widest">Global Positioning</p>
                 <p className="text-slate-300 text-sm leading-relaxed">{country.geography || "Strategically located at the heart of global trade routes, offering unparalleled access to international markets."}</p>
               </div>
               <div className="space-y-3">
-                <p className="text-blue-400 font-black uppercase text-xs tracking-widest">Economic Drivers</p>
+                <p className="text-[#FF8B60] font-black uppercase text-xs tracking-widest">Economic Drivers</p>
                 <p className="text-slate-300 text-sm leading-relaxed">{country.economy}</p>
               </div>
             </div>
@@ -166,7 +166,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({ country, onBack, onCheckE
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <section className="space-y-4">
               <div className="flex items-center space-x-3 mb-2">
-                <i className="fas fa-user-graduate text-blue-600 text-2xl"></i>
+                <i className="fas fa-user-graduate text-[#FF8B60] text-2xl"></i>
                 <h3 className="text-2xl font-black text-slate-900">Student Life</h3>
               </div>
               <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm text-sm text-slate-600 leading-relaxed">
@@ -206,7 +206,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({ country, onBack, onCheckE
             </div>
             <button 
               onClick={onCheckEligibility}
-              className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200"
+              className="w-full bg-[#FF8B60] text-white py-4 rounded-2xl font-bold hover:bg-[#e07a55] transition-all shadow-lg hover:shadow-orange-200"
             >
               Start Personal Assessment
             </button>

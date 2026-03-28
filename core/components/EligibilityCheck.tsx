@@ -139,7 +139,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
   return (
     <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-slate-100 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="flex items-center space-x-4 mb-8">
-        <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-100">
+        <div className="w-12 h-12 bg-[#FF8B60] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-100">
           <i className="fas fa-search text-xl"></i>
         </div>
         <div>
@@ -155,7 +155,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
             <select 
               value={formData.countryId} 
               onChange={(e) => handleInputChange('countryId', e.target.value)}
-              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer"
             >
               {COUNTRIES.map(c => <option key={c.id} value={c.id}>{c.flag} {c.name}</option>)}
             </select>
@@ -168,7 +168,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
                 handleInputChange('visaCategory', e.target.value);
                 setErrors({}); 
               }}
-              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer"
             >
               <option value="" disabled>Select a visa pathway</option>
               {countryVisas.length > 0 && (
@@ -191,7 +191,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
               <select 
                 value={formData.fieldOfStudy} 
                 onChange={(e) => handleInputChange('fieldOfStudy', e.target.value)}
-                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.fieldOfStudy ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer`}
+                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.fieldOfStudy ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer`}
               >
                 {FIELDS_OF_STUDY.map(f => <option key={f} value={f}>{f}</option>)}
               </select>
@@ -202,7 +202,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
               <select 
                 value={formData.degreeCategory} 
                 onChange={(e) => handleInputChange('degreeCategory', e.target.value)}
-                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer"
               >
                 {DEGREE_CATEGORIES.map(d => <option key={d} value={d}>{d}</option>)}
               </select>
@@ -218,7 +218,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
               <select 
                 value={formData.relatedField} 
                 onChange={(e) => handleInputChange('relatedField', e.target.value)}
-                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.relatedField ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer`}
+                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.relatedField ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer`}
               >
                 {FIELDS_OF_STUDY.map(f => <option key={f} value={f}>{f}</option>)}
               </select>
@@ -229,7 +229,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
               <input 
                 value={formData.jobRole} 
                 onChange={(e) => handleInputChange('jobRole', e.target.value)}
-                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.jobRole ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
+                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.jobRole ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all`} 
                 placeholder="e.g. Senior Cloud Architect" 
               />
               {errors.jobRole && <p className="text-rose-500 text-[10px] font-bold px-1 uppercase tracking-tight">{errors.jobRole}</p>}
@@ -243,7 +243,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
             <select 
               value={formData.languageTest} 
               onChange={(e) => handleInputChange('languageTest', e.target.value)}
-              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all cursor-pointer"
             >
               {LANGUAGE_TESTS.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
@@ -253,7 +253,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
             <input 
               value={formData.score} 
               onChange={(e) => handleInputChange('score', e.target.value)}
-              className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.score ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
+              className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.score ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-[#FF8B60] outline-none transition-all`} 
               placeholder="e.g. 7.5 Overall / B2 level" 
             />
             {errors.score && <p className="text-rose-500 text-[10px] font-bold px-1 uppercase tracking-tight">{errors.score}</p>}
@@ -263,14 +263,14 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
         <button 
           disabled={isLoading}
           type="submit" 
-          className="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-100 flex items-center justify-center space-x-3 disabled:opacity-50"
+          className="w-full bg-[#FF8B60] text-white py-5 rounded-2xl font-black text-lg hover:bg-[#e07a55] transition-all shadow-xl shadow-orange-100 flex items-center justify-center space-x-3 disabled:opacity-50"
         >
           {isLoading ? (
             <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
           ) : (
             <>
               <span>Generate Eligibility Report</span>
-              <i className="fas fa-magic text-blue-200"></i>
+              <i className="fas fa-magic text-orange-200"></i>
             </>
           )}
         </button>

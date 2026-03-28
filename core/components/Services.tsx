@@ -21,8 +21,8 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
       title: "Global University Matching",
       desc: "Connect your academic profile with top-tier research institutions that align with your residency goals.",
       icon: "fa-university",
-      color: "text-blue-500",
-      bg: "bg-blue-50",
+      color: "text-[#FF8B60]",
+      bg: "bg-orange-50",
       id: 'find-uni'
     },
     {

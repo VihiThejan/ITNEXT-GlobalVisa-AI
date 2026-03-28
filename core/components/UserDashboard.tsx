@@ -58,18 +58,18 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="space-y-1">
           <h1 className="text-4xl font-black text-slate-900 tracking-tight leading-none">Command Center</h1>
-          <p className="text-slate-500 font-medium">Monitoring relocation vectors for <span className="text-blue-600 font-bold">{profile.firstName} {profile.lastName}</span></p>
+          <p className="text-slate-500 font-medium">Monitoring relocation vectors for <span className="text-[#FF8B60] font-bold">{profile.firstName} {profile.lastName}</span></p>
         </div>
         <div className="flex items-center space-x-4">
           <button 
             onClick={() => setIsEditingProfile(true)}
-            className="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:bg-white transition-all shadow-sm"
+            className="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-[#FF8B60] hover:bg-white transition-all shadow-sm"
           >
             <i className="fas fa-user-gear text-xl"></i>
           </button>
           <button 
             onClick={() => setIsEditingProfile(true)}
-            className="flex items-center space-x-3 px-5 py-3 rounded-2xl bg-blue-600 text-white shadow-xl hover:scale-105 transition-all"
+            className="flex items-center space-x-3 px-5 py-3 rounded-2xl bg-[#FF8B60] text-white shadow-xl hover:scale-105 transition-all"
           >
             <span className="font-black text-xs uppercase tracking-widest">Update Identity</span>
             <i className="fas fa-fingerprint"></i>
@@ -83,7 +83,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Assessments</p>
           <div className="flex items-end justify-between">
             <p className="text-3xl font-black text-slate-900">{history.length}</p>
-            <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+            <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center text-[#FF8B60]">
               <i className="fas fa-passport"></i>
             </div>
           </div>
@@ -123,18 +123,18 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
         <div className="space-y-8">
           <div className="bg-white p-8 rounded-[3rem] shadow-xl border border-slate-100 space-y-8">
             <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] px-1 border-b border-slate-50 pb-4 flex items-center">
-               <i className="fas fa-database mr-3 text-blue-500"></i> Performance Logs
+               <i className="fas fa-database mr-3 text-[#FF8B60]"></i> Performance Logs
             </h3>
             
             <div className="space-y-10">
               {/* Assessments Log */}
               <div className="space-y-4">
-                <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest px-2">Visa Assessments</p>
+                <p className="text-[10px] font-black text-[#FF8B60] uppercase tracking-widest px-2">Visa Assessments</p>
                 <div className="space-y-3">
                   {history.length > 0 ? [...history].reverse().slice(0, 3).map((assessment) => {
                     const country = COUNTRIES.find(c => c.name === assessment.targetCountry);
                     return (
-                      <div key={assessment.id} onClick={() => onViewAssessment(assessment)} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-blue-200 cursor-pointer transition-all group">
+                      <div key={assessment.id} onClick={() => onViewAssessment(assessment)} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-orange-200 cursor-pointer transition-all group">
                         <div className="flex justify-between items-center mb-1">
                           <div className="flex items-center gap-2">
                             {country && (
@@ -147,7 +147,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
                             )}
                             <p className="font-black text-slate-900 text-xs">{assessment.targetCountry}</p>
                           </div>
-                          <p className="text-[10px] font-black text-blue-600">{assessment.overallScore}%</p>
+                          <p className="text-[10px] font-black text-[#FF8B60]">{assessment.overallScore}%</p>
                         </div>
                         <p className="text-[9px] text-slate-400 uppercase tracking-widest truncate">{assessment.targetVisaCategory}</p>
                       </div>
@@ -248,9 +248,9 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
 
             <button 
               onClick={() => onNavigate('find-job')}
-              className="p-8 rounded-[2.5rem] bg-blue-50/50 border-2 border-blue-100 flex flex-col items-start text-left hover:bg-white hover:border-blue-600 transition-all group"
+              className="p-8 rounded-[2.5rem] bg-orange-50/50 border-2 border-orange-100 flex flex-col items-start text-left hover:bg-white hover:border-[#FF8B60] transition-all group"
             >
-              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 shadow-sm mb-6 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[#FF8B60] shadow-sm mb-6 group-hover:scale-110 transition-transform">
                 <i className="fas fa-rocket"></i>
               </div>
               <h4 className="text-2xl font-black text-slate-900 leading-none mb-2">FindMyJob</h4>
@@ -298,7 +298,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Matching Efficiency</p>
                 <p className="text-4xl font-black text-slate-900">98.2%</p>
                 <div className="w-full h-1 bg-slate-200 rounded-full mt-4 overflow-hidden">
-                  <div className="w-5/6 h-full bg-blue-600"></div>
+                  <div className="w-5/6 h-full bg-[#FF8B60]"></div>
                 </div>
               </div>
             </div>

@@ -107,7 +107,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                   <input 
                     type="text"
                     placeholder="Job title, keywords, or company..."
-                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 font-medium text-slate-900 transition-all ${errors.keywords ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-blue-500/20'}`}
+                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 font-medium text-slate-900 transition-all ${errors.keywords ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-[#FF8B60]/20'}`}
                     value={searchParams.keywords}
                     onChange={(e) => {
                       setSearchParams({...searchParams, keywords: e.target.value});
@@ -119,7 +119,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                 <div className="w-full md:w-64 relative">
                   <MapPin className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.location ? 'text-rose-500' : 'text-slate-400'}`} />
                   <select 
-                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 font-medium text-slate-900 appearance-none transition-all ${errors.location ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-blue-500/20'}`}
+                    className={`w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 font-medium text-slate-900 appearance-none transition-all ${errors.location ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-[#FF8B60]/20'}`}
                     value={searchParams.location}
                     onChange={(e) => {
                       setSearchParams({...searchParams, location: e.target.value});
@@ -133,7 +133,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
             <button 
               onClick={handleSearch}
               disabled={loading}
-              className="w-full md:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 disabled:opacity-70"
+              className="w-full md:w-auto px-8 py-4 bg-[#FF8B60] hover:bg-[#e07a55] text-white rounded-2xl font-bold transition-all shadow-lg shadow-orange-200 flex items-center justify-center gap-2 disabled:opacity-70"
             >
               {loading ? <Zap className="w-5 h-5 animate-pulse" /> : <Search className="w-5 h-5" />}
               <span>{loading ? 'Searching...' : 'Find Jobs'}</span>
@@ -162,7 +162,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                     salary: '',
                     sponsorship: ''
                   })}
-                  className="text-xs font-bold text-blue-600 hover:text-blue-700 uppercase tracking-wider"
+                  className="text-xs font-bold text-[#FF8B60] hover:text-[#FF8B60] uppercase tracking-wider"
                 >
                   Reset
                 </button>
@@ -173,7 +173,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                 <div className="space-y-3">
                   <label className={`text-xs font-black uppercase tracking-widest ${errors.industry ? 'text-rose-500' : 'text-slate-400'}`}>Industry</label>
                   <select 
-                    className={`w-full p-3 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 focus:ring-2 transition-all ${errors.industry ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-blue-500/10'}`}
+                    className={`w-full p-3 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 focus:ring-2 transition-all ${errors.industry ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-[#FF8B60]/10'}`}
                     value={searchParams.industry}
                     onChange={(e) => {
                       setSearchParams({...searchParams, industry: e.target.value});
@@ -193,7 +193,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                 <div className="space-y-3">
                   <label className={`text-xs font-black uppercase tracking-widest ${errors.type ? 'text-rose-500' : 'text-slate-400'}`}>Job Type</label>
                   <select 
-                    className={`w-full p-3 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 focus:ring-2 transition-all ${errors.type ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-blue-500/10'}`}
+                    className={`w-full p-3 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 focus:ring-2 transition-all ${errors.type ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-[#FF8B60]/10'}`}
                     value={searchParams.type}
                     onChange={(e) => {
                       setSearchParams({...searchParams, type: e.target.value});
@@ -210,7 +210,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                 <div className="space-y-3">
                   <label className={`text-xs font-black uppercase tracking-widest ${errors.experienceLevel ? 'text-rose-500' : 'text-slate-400'}`}>Experience</label>
                   <select 
-                    className={`w-full p-3 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 focus:ring-2 transition-all ${errors.experienceLevel ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-blue-500/10'}`}
+                    className={`w-full p-3 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 focus:ring-2 transition-all ${errors.experienceLevel ? 'ring-2 ring-rose-500 bg-rose-50' : 'focus:ring-[#FF8B60]/10'}`}
                     value={searchParams.experienceLevel}
                     onChange={(e) => {
                       setSearchParams({...searchParams, experienceLevel: e.target.value});
@@ -230,13 +230,13 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                   <div className="flex p-1 bg-slate-50 rounded-xl">
                     <button 
                       onClick={() => setSearchParams({...searchParams, sponsorship: 'Yes'})}
-                      className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${searchParams.sponsorship === 'Yes' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}
+                      className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${searchParams.sponsorship === 'Yes' ? 'bg-white text-[#FF8B60] shadow-sm' : 'text-slate-500'}`}
                     >
                       Required
                     </button>
                     <button 
                       onClick={() => setSearchParams({...searchParams, sponsorship: 'No'})}
-                      className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${searchParams.sponsorship === 'No' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}
+                      className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${searchParams.sponsorship === 'No' ? 'bg-white text-[#FF8B60] shadow-sm' : 'text-slate-500'}`}
                     >
                       Not Needed
                     </button>
@@ -245,15 +245,15 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
               </div>
             </div>
 
-            <div className="bg-blue-600 p-6 rounded-3xl text-white space-y-4 shadow-xl shadow-blue-200">
+            <div className="bg-[#FF8B60] p-6 rounded-3xl text-white space-y-4 shadow-xl shadow-orange-200">
               <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <h4 className="font-bold text-lg leading-tight">Visa Sponsorship Guide</h4>
-              <p className="text-blue-100 text-sm leading-relaxed">
+              <p className="text-orange-100 text-sm leading-relaxed">
                 Looking for jobs that offer sponsorship? Filter by "Required" to see roles with confirmed visa support.
               </p>
-              <button className="w-full py-3 bg-white text-blue-600 rounded-xl font-bold text-sm hover:bg-blue-50 transition-colors">
+              <button className="w-full py-3 bg-white text-[#FF8B60] rounded-xl font-bold text-sm hover:bg-orange-50 transition-colors">
                 Learn More
               </button>
             </div>
@@ -301,17 +301,17 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.05 }}
                       onClick={() => setSelectedJob(job)}
-                      className="group bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-100/50 transition-all cursor-pointer relative overflow-hidden"
+                      className="group bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-[#FF8B60] hover:shadow-2xl hover:shadow-orange-100/50 transition-all cursor-pointer relative overflow-hidden"
                     >
                       <div className="flex flex-col md:flex-row justify-between gap-6">
                         <div className="space-y-4 flex-1">
                           <div className="flex items-start justify-between md:justify-start md:gap-4">
-                            <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                            <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-[#FF8B60] transition-colors">
                               <Building2 className="w-8 h-8" />
                             </div>
                             <div className="flex-1">
                               <div className="flex items-center gap-3 mb-1">
-                                <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{job.title}</h3>
+                                <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#FF8B60] transition-colors">{job.title}</h3>
                                 {job.matchScore > 85 && (
                                   <span className="px-2 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-md flex items-center gap-1">
                                     <Zap className="w-3 h-3 fill-emerald-600" />
@@ -324,7 +324,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                                 <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> {job.location}</span>
                                 <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {job.postedAt}</span>
                                 {job.sourceSite && (
-                                  <span className="flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 rounded-lg text-[10px] font-black uppercase tracking-widest text-blue-600 border border-blue-100">
+                                  <span className="flex items-center gap-1.5 px-2.5 py-1 bg-orange-50 rounded-lg text-[10px] font-black uppercase tracking-widest text-[#FF8B60] border border-orange-100">
                                     <Globe className="w-3 h-3" /> {job.sourceSite}
                                   </span>
                                 )}
@@ -345,7 +345,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                           <div className="flex flex-wrap gap-2">
                             <span className="px-3 py-1.5 bg-slate-50 text-slate-600 text-xs font-bold rounded-lg border border-slate-100">{job.type}</span>
                             <span className="px-3 py-1.5 bg-slate-50 text-slate-600 text-xs font-bold rounded-lg border border-slate-100">{job.experienceLevel}</span>
-                            <span className="px-3 py-1.5 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg border border-blue-100 flex items-center gap-1.5">
+                            <span className="px-3 py-1.5 bg-orange-50 text-[#FF8B60] text-xs font-bold rounded-lg border border-orange-100 flex items-center gap-1.5">
                               <DollarSign className="w-3 h-3" />
                               {job.salary}
                             </span>
@@ -368,11 +368,11 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                           <div className="flex flex-col items-end gap-2">
                             <div className="text-right">
                               <div className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Match Score</div>
-                              <div className={`text-2xl font-black ${job.matchScore > 80 ? 'text-emerald-500' : 'text-blue-500'}`}>
+                              <div className={`text-2xl font-black ${job.matchScore > 80 ? 'text-emerald-500' : 'text-[#FF8B60]'}`}>
                                 {job.matchScore}%
                               </div>
                             </div>
-                            <div className="flex items-center gap-3 text-blue-600 font-bold text-sm group-hover:translate-x-1 transition-transform">
+                            <div className="flex items-center gap-3 text-[#FF8B60] font-bold text-sm group-hover:translate-x-1 transition-transform">
                               View Details <ChevronRight className="w-4 h-4" />
                             </div>
                             <button 
@@ -393,7 +393,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                 </AnimatePresence>
               ) : !hasSearched ? (
                 <div className="bg-white p-16 rounded-[3rem] border border-slate-200 text-center space-y-6">
-                  <div className="w-24 h-24 bg-blue-50 rounded-[2.5rem] flex items-center justify-center text-blue-600 mx-auto">
+                  <div className="w-24 h-24 bg-orange-50 rounded-[2.5rem] flex items-center justify-center text-[#FF8B60] mx-auto">
                     <Briefcase className="w-12 h-12" />
                   </div>
                   <div className="space-y-2">
@@ -404,7 +404,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                   </div>
                   <div className="flex justify-center gap-4">
                     <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                      <div className="w-2 h-2 rounded-full bg-[#FF8B60]"></div>
                       Select Filters
                     </div>
                     <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
@@ -467,7 +467,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
             >
               <div className="p-8 border-b border-slate-100 flex justify-between items-start">
                 <div className="flex gap-6">
-                  <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+                  <div className="w-20 h-20 bg-orange-50 rounded-2xl flex items-center justify-center text-[#FF8B60]">
                     <Building2 className="w-10 h-10" />
                   </div>
                   <div>
@@ -477,7 +477,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                       <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> {selectedJob.location}</span>
                       <span className="flex items-center gap-1.5"><Briefcase className="w-4 h-4" /> {selectedJob.type}</span>
                       {selectedJob.sourceSite && (
-                        <span className="flex items-center gap-1.5 px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-[10px] font-black uppercase tracking-widest">
+                        <span className="flex items-center gap-1.5 px-2 py-0.5 bg-orange-50 text-[#FF8B60] rounded text-[10px] font-black uppercase tracking-widest">
                           <Globe className="w-3 h-3" /> {selectedJob.sourceSite}
                         </span>
                       )}
@@ -497,21 +497,21 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                   <div className="bg-slate-50 p-6 rounded-2xl space-y-1">
                     <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Salary Range</span>
                     <div className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                      <DollarSign className="w-5 h-5 text-blue-600" />
+                      <DollarSign className="w-5 h-5 text-[#FF8B60]" />
                       {selectedJob.salary}
                     </div>
                   </div>
                   <div className="bg-slate-50 p-6 rounded-2xl space-y-1">
                     <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Experience</span>
                     <div className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                      <Zap className="w-5 h-5 text-blue-600" />
+                      <Zap className="w-5 h-5 text-[#FF8B60]" />
                       {selectedJob.experienceLevel}
                     </div>
                   </div>
                   <div className="bg-slate-50 p-6 rounded-2xl space-y-1">
                     <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Sponsorship</span>
                     <div className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                      <Globe className="w-5 h-5 text-blue-600" />
+                      <Globe className="w-5 h-5 text-[#FF8B60]" />
                       {selectedJob.sponsorshipAvailable ? 'Available' : 'Not Offered'}
                     </div>
                   </div>
@@ -537,7 +537,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-6">
                     <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                      <Info className="w-5 h-5 text-blue-600" />
+                      <Info className="w-5 h-5 text-[#FF8B60]" />
                       Job Description
                     </h3>
                     <p className="text-slate-600 leading-relaxed">
@@ -550,7 +550,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                         <ul className="space-y-3">
                           {selectedJob.responsibilities.map((r, i) => (
                             <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
-                              <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#FF8B60] mt-1.5 flex-shrink-0"></div>
                               {r}
                             </li>
                           ))}
@@ -562,7 +562,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                   <div className="space-y-8">
                     <div className="space-y-4">
                       <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-blue-600" />
+                        <CheckCircle2 className="w-5 h-5 text-[#FF8B60]" />
                         Requirements
                       </h3>
                       <div className="flex flex-wrap gap-2">
@@ -577,7 +577,7 @@ const FindMyJob: React.FC<FindMyJobProps> = ({ profile, onSearchComplete }) => {
                     {selectedJob.benefits && (
                       <div className="space-y-4">
                         <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                          <Zap className="w-5 h-5 text-blue-600" />
+                          <Zap className="w-5 h-5 text-[#FF8B60]" />
                           Benefits
                         </h3>
                         <div className="grid grid-cols-2 gap-3">
