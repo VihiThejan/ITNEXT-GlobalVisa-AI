@@ -167,6 +167,188 @@ STRICT CONSTRAINTS:
     }
 };
 
+export const discoverUniversitiesAI = async (profile: UserProfile, criteria: any) => {
+    console.log('=== Starting University Discovery ===');
+    console.log('Criteria:', JSON.stringify(criteria, null, 2));
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY is not set in environment variables");
+    }
+
+    try {
+        const genAI = new GoogleGenAI({ apiKey });
+
+        const prompt = `
+You are an expert international education consultant. Based on the user's profile and search criteria, recommend 6-8 real universities that match their requirements.
+
+USER PROFILE:
+- Education: ${profile.educationLevel} in ${profile.fieldOfStudy}
+- Experience: ${profile.workExperienceYears || profile.yearsOfExperience || 0} years
+- Background: ${profile.professionalBackground || 'Not specified'}
+- Language: ${profile.languageScores?.test || 'Not specified'} (Score: ${profile.languageScores?.score || 'N/A'})
+
+SEARCH CRITERIA:
+- Degree Type: ${criteria.degreeType || 'Master'}
+- Subject Area: ${criteria.subjectArea || 'Computer Science'}
+- Country: ${criteria.country || criteria.location || 'Canada'}
+- City: ${criteria.city || 'Any'}
+- Budget Range: ${criteria.budget || 'Not specified'} ${criteria.currencyCode || 'USD'}/year
+- Preferred Intake: ${criteria.intake || 'Fall 2025'}
+- English Proficiency: ${criteria.englishProficiency || 'IELTS 6.5'}
+
+REQUIREMENTS:
+- Recommend REAL, existing universities (no fictional ones)
+- Include accurate tuition estimates in ${criteria.currencyCode || 'USD'}
+- Provide a matchScore (0-100) based on how well the university matches the criteria
+- Include the university's actual website URL
+- Include real global ranking positions (QS, THE, or ARWU)
+- Provide 2-3 key programs relevant to the subject area
+- List available intake periods
+
+Return ONLY valid JSON array of university objects.
+`;
+
+        const response = await genAI.models.generateContent({
+            model: "gemini-2.5-flash-lite",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: Type.OBJECT,
+                    properties: {
+                        results: {
+                            type: Type.ARRAY,
+                            items: {
+                                type: Type.OBJECT,
+                                properties: {
+                                    id: { type: Type.STRING },
+                                    name: { type: Type.STRING },
+                                    location: { type: Type.STRING },
+                                    rank: { type: Type.STRING },
+                                    tuition: { type: Type.STRING },
+                                    matchScore: { type: Type.NUMBER },
+                                    description: { type: Type.STRING },
+                                    keyPrograms: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                    intakes: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                    websiteUrl: { type: Type.STRING }
+                                },
+                                required: ["id", "name", "location", "rank", "tuition", "matchScore", "description", "keyPrograms", "intakes", "websiteUrl"]
+                            }
+                        }
+                    },
+                    required: ["results"]
+                }
+            }
+        });
+
+        const textData = typeof (response as any).text === 'function' ? (response as any).text() : response.text;
+        const data = JSON.parse(textData || "{}");
+        console.log('=== University Discovery Complete ===', data.results?.length || 0, 'results');
+        return data.results || [];
+
+    } catch (error) {
+        console.error("=== University Discovery Error ===");
+        console.error("Error:", error instanceof Error ? error.message : String(error));
+        throw error;
+    }
+};
+
+export const discoverJobsAI = async (profile: UserProfile, criteria: any) => {
+    console.log('=== Starting Job Discovery ===');
+    console.log('Criteria:', JSON.stringify(criteria, null, 2));
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY is not set in environment variables");
+    }
+
+    try {
+        const genAI = new GoogleGenAI({ apiKey });
+
+        const prompt = `
+You are an expert international career consultant. Based on the user's profile and search criteria, recommend 6-8 realistic job opportunities that match their requirements.
+
+USER PROFILE:
+- Education: ${profile.educationLevel} in ${profile.fieldOfStudy}
+- Experience: ${profile.workExperienceYears || profile.yearsOfExperience || 0} years
+- Background: ${profile.professionalBackground || 'Not specified'}
+- Job Title: ${profile.jobTitle || 'Not specified'}
+- Language: ${profile.languageScores?.test || 'Not specified'} (Score: ${profile.languageScores?.score || 'N/A'})
+
+SEARCH CRITERIA:
+- Country: ${criteria.country || criteria.location || 'Canada'}
+- City: ${criteria.city || 'Any'}
+- Industry: ${criteria.industry || 'Technology'}
+- Experience Level: ${criteria.experienceLevel || 'Mid'}
+- Job Type: ${criteria.jobType || 'Full-time'}
+- Salary Range: ${criteria.salaryRange || 'Not specified'} ${criteria.currencyCode || 'USD'}
+
+REQUIREMENTS:
+- Generate realistic job listings that would exist in the specified country/city
+- Use real company names that are known to operate in that location
+- Include realistic salary ranges in ${criteria.currencyCode || 'USD'}
+- Provide a matchScore (0-100) based on profile fit
+- Include whether visa sponsorship is typically available
+- Provide a realistic job portal URL (LinkedIn, Indeed, Glassdoor, or company careers page)
+- Include 3-5 key requirements for each role
+- List responsibilities and benefits
+
+Return ONLY valid JSON.
+`;
+
+        const response = await genAI.models.generateContent({
+            model: "gemini-2.5-flash-lite",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: Type.OBJECT,
+                    properties: {
+                        results: {
+                            type: Type.ARRAY,
+                            items: {
+                                type: Type.OBJECT,
+                                properties: {
+                                    id: { type: Type.STRING },
+                                    title: { type: Type.STRING },
+                                    company: { type: Type.STRING },
+                                    location: { type: Type.STRING },
+                                    salary: { type: Type.STRING },
+                                    industry: { type: Type.STRING },
+                                    type: { type: Type.STRING },
+                                    experienceLevel: { type: Type.STRING },
+                                    postedAt: { type: Type.STRING },
+                                    sponsorshipAvailable: { type: Type.BOOLEAN },
+                                    matchScore: { type: Type.NUMBER },
+                                    description: { type: Type.STRING },
+                                    applyUrl: { type: Type.STRING },
+                                    sourceSite: { type: Type.STRING },
+                                    keyRequirements: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                    responsibilities: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                    benefits: { type: Type.ARRAY, items: { type: Type.STRING } }
+                                },
+                                required: ["id", "title", "company", "location", "salary", "industry", "type", "experienceLevel", "postedAt", "sponsorshipAvailable", "matchScore", "description", "applyUrl", "keyRequirements"]
+                            }
+                        }
+                    },
+                    required: ["results"]
+                }
+            }
+        });
+
+        const textData = typeof (response as any).text === 'function' ? (response as any).text() : response.text;
+        const data = JSON.parse(textData || "{}");
+        console.log('=== Job Discovery Complete ===', data.results?.length || 0, 'results');
+        return data.results || [];
+
+    } catch (error) {
+        console.error("=== Job Discovery Error ===");
+        console.error("Error:", error instanceof Error ? error.message : String(error));
+        throw error;
+    }
+};
+
 export const generateCountryData = async (countryName: string) => {
     console.log('=== Starting Country Data Generation ===');
     console.log('Country:', countryName);
@@ -230,7 +412,7 @@ Important:
 Return ONLY the JSON object, no additional text or markdown formatting.`;
 
         console.log('Sending request to Gemini...');
-        
+
         const response = await genAI.models.generateContent({
             model: "gemini-2.5-flash-lite",
             contents: prompt,
@@ -292,7 +474,7 @@ Return ONLY the JSON object, no additional text or markdown formatting.`;
         console.log('=== Country Data Generated Successfully ===');
         console.log('Country name:', data.name);
         console.log('Visas generated:', data.visas?.length || 0);
-        
+
         return data;
 
     } catch (error) {
