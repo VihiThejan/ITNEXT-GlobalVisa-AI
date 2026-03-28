@@ -17,6 +17,8 @@ import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import Partners from './components/Partners';
 import FeedbackPage from './components/FeedbackPage';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
 import { UserProfile, AssessmentResult, Country, User, University, JobOffer } from './types';
 import { COUNTRIES } from './constants';
 import { generateAssessment } from './services/geminiService';
@@ -468,13 +470,30 @@ const App: React.FC = () => {
           <FeedbackPage user={user} />
         )}
 
+        {currentPage === 'privacy-policy' && (
+          <PrivacyPolicy />
+        )}
+
+        {currentPage === 'terms-of-service' && (
+          <TermsOfService />
+        )}
+
         {/* Admin Routes */}
         {currentPage === 'admin-users' && <UserList onSelectUser={(id) => { setPendingAction({ page: 'admin-activity', countryId: id }); setCurrentPage('admin-activity'); }} onBack={() => handleLogout()} />}
         {currentPage === 'admin-activity' && pendingAction?.countryId && <UserActivity userId={pendingAction.countryId} onBack={() => setCurrentPage('admin-users')} />}
       </main>
 
-      <footer className="bg-slate-900 text-slate-400 py-12 text-center uppercase tracking-widest text-[10px] font-black">
-        © 2024 ITNEXT INFRASTRUCTURE • SECURE GLOBAL SYSTEMS
+      <footer className="bg-slate-900 text-slate-400 py-12 text-center uppercase tracking-widest text-[10px] font-black space-y-3">
+        <div className="flex items-center justify-center gap-4">
+          <button onClick={() => navigate('privacy-policy')} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
+            Privacy Policy
+          </button>
+          <span className="text-slate-700">•</span>
+          <button onClick={() => navigate('terms-of-service')} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
+            Terms of Service
+          </button>
+        </div>
+        <div>© 2024 ITNEXT INFRASTRUCTURE • SECURE GLOBAL SYSTEMS</div>
       </footer>
     </div>
     </ErrorBoundary>
