@@ -1,4 +1,4 @@
-import { User, UserProfile, AssessmentResult } from '../types';
+import { User, UserProfile, AssessmentResult, UniversitySearchRecord, JobSearchRecord, CountryViewRecord } from '../types';
 
 // Backend API URL from environment variable
 const API_URL = import.meta.env.VITE_API_URL;
@@ -106,11 +106,11 @@ export const api = {
   },
 
   assessments: {
-    async save(_userId: string, assessment: AssessmentResult): Promise<User | null> {
+    async save(_userId: string, assessment: AssessmentResult): Promise<void> {
       const user = await api.auth.getCurrentSession();
       if (!user || !user.id) {
         console.error('No user session found, cannot save assessment');
-        return null;
+        return;
       }
 
       console.log('Saving assessment to backend for user:', user.id);
@@ -122,16 +122,8 @@ export const api = {
 
       if (!res.ok) {
         console.error('Failed to save assessment');
-        return null;
       } else {
-        const data = await res.json();
         console.log('Assessment saved successfully');
-        // Update local storage with fresh user data
-        if (data.result) {
-          localStorage.setItem('user', JSON.stringify(data.result));
-          return data.result;
-        }
-        return null;
       }
     }
   },
@@ -296,6 +288,59 @@ export const api = {
       const data = await res.json();
       console.log('Country data generated successfully');
       return data.countryData;
+    }
+  },
+
+  history: {
+    async saveUniSearch(userId: string, record: UniversitySearchRecord): Promise<User> {
+      const user = await api.auth.getCurrentSession();
+      if (!user || !user.id) throw new Error("No session");
+
+      const res = await fetch(`${API_URL}/history/uni-search`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ userId: user.id, record })
+      });
+
+      if (!res.ok) throw new Error('Failed to save uni search');
+      const data = await res.json();
+      const updated = data.result || { ...user, uniSearchHistory: [...(user.uniSearchHistory || []), record] };
+      localStorage.setItem('user', JSON.stringify(updated));
+      return updated;
+    },
+
+    async saveJobSearch(userId: string, record: JobSearchRecord): Promise<User> {
+      const user = await api.auth.getCurrentSession();
+      if (!user || !user.id) throw new Error("No session");
+
+      const res = await fetch(`${API_URL}/history/job-search`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ userId: user.id, record })
+      });
+
+      if (!res.ok) throw new Error('Failed to save job search');
+      const data = await res.json();
+      const updated = data.result || { ...user, jobSearchHistory: [...(user.jobSearchHistory || []), record] };
+      localStorage.setItem('user', JSON.stringify(updated));
+      return updated;
+    },
+
+    async saveCountryView(userId: string, record: CountryViewRecord): Promise<User> {
+      const user = await api.auth.getCurrentSession();
+      if (!user || !user.id) throw new Error("No session");
+
+      const res = await fetch(`${API_URL}/history/country-view`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ userId: user.id, record })
+      });
+
+      if (!res.ok) throw new Error('Failed to save country view');
+      const data = await res.json();
+      const updated = data.result || { ...user, countryViewHistory: [...(user.countryViewHistory || []), record] };
+      localStorage.setItem('user', JSON.stringify(updated));
+      return updated;
     }
   }
 };

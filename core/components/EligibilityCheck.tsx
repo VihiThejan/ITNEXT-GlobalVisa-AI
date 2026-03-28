@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { UserProfile } from '../types';
-import { COUNTRIES } from '../constants';
+import { COUNTRIES, FIELDS_OF_STUDY } from '../constants';
 
 interface EligibilityCheckProps {
   onCheck: (
@@ -38,9 +38,9 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
     visaCategory: userProfile?.visaIntent || VISA_CATEGORIES[0],
     languageTest: userProfile?.languageScores?.test || LANGUAGE_TESTS[0],
     score: userProfile?.languageScores?.score || '',
-    fieldOfStudy: userProfile?.fieldOfStudy || '',
+    fieldOfStudy: userProfile?.fieldOfStudy || FIELDS_OF_STUDY[0],
     degreeCategory: userProfile?.educationLevel || DEGREE_CATEGORIES[0],
-    relatedField: userProfile?.fieldOfStudy || '',
+    relatedField: userProfile?.fieldOfStudy || FIELDS_OF_STUDY[0],
     jobRole: ''
   });
 
@@ -61,8 +61,11 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const isStudentVisa = formData.visaCategory === 'Student / Study';
-  const isWorkVisa = formData.visaCategory === 'Skilled Worker / Employment';
+  const selectedCountry = COUNTRIES.find(c => c.id === formData.countryId);
+  const countryVisas = selectedCountry?.visas || [];
+
+  const isStudentVisa = formData.visaCategory.toLowerCase().includes('student') || formData.visaCategory.toLowerCase().includes('study');
+  const isWorkVisa = formData.visaCategory.toLowerCase().includes('worker') || formData.visaCategory.toLowerCase().includes('employment') || formData.visaCategory.toLowerCase().includes('talent') || formData.visaCategory.toLowerCase().includes('innovator');
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -91,7 +94,17 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    if (field === 'countryId') {
+      const newCountry = COUNTRIES.find(c => c.id === value);
+      if (newCountry && newCountry.visas.length > 0) {
+        setFormData(prev => ({ ...prev, [field]: value, visaCategory: newCountry.visas[0].name }));
+      } else {
+        setFormData(prev => ({ ...prev, [field]: value }));
+      }
+    } else {
+      setFormData(prev => ({ ...prev, [field]: value }));
+    }
+    
     if (errors[field]) {
       setErrors(prev => {
         const updated = { ...prev };
@@ -105,7 +118,7 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
     e.preventDefault();
     if (!validateForm()) return;
 
-    const country = COUNTRIES.find(c => c.id === formData.countryId)?.name || 'Canada';
+    const country = selectedCountry?.name || 'Canada';
     
     let extraInfo: Record<string, string> = {};
     if (isStudentVisa) {
@@ -157,7 +170,15 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
               }}
               className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
             >
-              {VISA_CATEGORIES.map(v => <option key={v} value={v}>{v}</option>)}
+              <option value="" disabled>Select a visa pathway</option>
+              {countryVisas.length > 0 && (
+                <optgroup label="Specific Visa Pathways">
+                  {countryVisas.map(v => <option key={v.id} value={v.name}>{v.name}</option>)}
+                </optgroup>
+              )}
+              <optgroup label="General Categories">
+                {VISA_CATEGORIES.map(v => <option key={v} value={v}>{v}</option>)}
+              </optgroup>
             </select>
           </div>
         </div>
@@ -167,12 +188,13 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
             <div className="space-y-2">
               <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Target Field of Study</label>
-              <input 
+              <select 
                 value={formData.fieldOfStudy} 
                 onChange={(e) => handleInputChange('fieldOfStudy', e.target.value)}
-                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.fieldOfStudy ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
-                placeholder="e.g. Data Science" 
-              />
+                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.fieldOfStudy ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer`}
+              >
+                {FIELDS_OF_STUDY.map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
               {errors.fieldOfStudy && <p className="text-rose-500 text-[10px] font-bold px-1 uppercase tracking-tight">{errors.fieldOfStudy}</p>}
             </div>
             <div className="space-y-2">
@@ -193,12 +215,13 @@ const EligibilityCheck: React.FC<EligibilityCheckProps> = ({ onCheck, isLoading,
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
             <div className="space-y-2">
               <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Related Professional Field</label>
-              <input 
+              <select 
                 value={formData.relatedField} 
                 onChange={(e) => handleInputChange('relatedField', e.target.value)}
-                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.relatedField ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`} 
-                placeholder="e.g. Information Technology" 
-              />
+                className={`w-full px-5 py-4 rounded-2xl bg-slate-50 border ${errors.relatedField ? 'border-rose-300 ring-2 ring-rose-50' : 'border-slate-100'} focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer`}
+              >
+                {FIELDS_OF_STUDY.map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
               {errors.relatedField && <p className="text-rose-500 text-[10px] font-bold px-1 uppercase tracking-tight">{errors.relatedField}</p>}
             </div>
             <div className="space-y-2">
