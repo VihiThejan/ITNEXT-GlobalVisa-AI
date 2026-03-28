@@ -342,5 +342,93 @@ export const api = {
       localStorage.setItem('user', JSON.stringify(updated));
       return updated;
     }
+  },
+
+  admin: {
+    async getUsers(): Promise<User[]> {
+      const res = await fetch(`${API_URL}/admin/users`, { headers: getHeaders() });
+      if (!res.ok) throw new Error('Failed to fetch users');
+      const data = await res.json();
+      return data.users;
+    },
+
+    async getUserActivity(userId: string): Promise<any> {
+      const res = await fetch(`${API_URL}/admin/users/${userId}/activity`, { headers: getHeaders() });
+      if (!res.ok) throw new Error('Failed to fetch user activity');
+      const data = await res.json();
+      return data.user;
+    },
+
+    async getAnalytics(): Promise<any> {
+      const res = await fetch(`${API_URL}/admin/analytics`, { headers: getHeaders() });
+      if (!res.ok) throw new Error('Failed to fetch analytics');
+      const data = await res.json();
+      return data.analytics;
+    },
+
+    async getAllCountries(): Promise<any[]> {
+      const res = await fetch(`${API_URL}/admin/countries`, { headers: getHeaders() });
+      if (!res.ok) throw new Error('Failed to fetch countries');
+      const data = await res.json();
+      return data.countries;
+    },
+
+    async getCountryById(id: string): Promise<any> {
+      const res = await fetch(`${API_URL}/admin/countries/${id}`, { headers: getHeaders() });
+      if (!res.ok) throw new Error('Failed to fetch country');
+      const data = await res.json();
+      return data.country;
+    },
+
+    async createCountry(countryData: any): Promise<any> {
+      const res = await fetch(`${API_URL}/admin/countries`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify(countryData)
+      });
+      if (!res.ok) throw new Error('Failed to create country');
+      const data = await res.json();
+      return data.country;
+    },
+
+    async updateCountry(id: string, countryData: any): Promise<any> {
+      const res = await fetch(`${API_URL}/admin/countries/${id}`, {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify(countryData)
+      });
+      if (!res.ok) throw new Error('Failed to update country');
+      const data = await res.json();
+      return data.country;
+    },
+
+    async deleteCountry(id: string): Promise<void> {
+      const res = await fetch(`${API_URL}/admin/countries/${id}`, {
+        method: 'DELETE',
+        headers: getHeaders()
+      });
+      if (!res.ok) throw new Error('Failed to delete country');
+    },
+
+    async toggleCountryStatus(id: string): Promise<any> {
+      const res = await fetch(`${API_URL}/admin/countries/${id}/toggle`, {
+        method: 'PATCH',
+        headers: getHeaders()
+      });
+      if (!res.ok) throw new Error('Failed to toggle country status');
+      const data = await res.json();
+      return data.country;
+    },
+
+    async generateCountryData(countryName: string): Promise<any> {
+      const res = await fetch(`${API_URL}/admin/countries/generate`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ countryName })
+      });
+      if (!res.ok) throw new Error('Failed to generate country data');
+      const data = await res.json();
+      return data.countryData;
+    }
   }
 };

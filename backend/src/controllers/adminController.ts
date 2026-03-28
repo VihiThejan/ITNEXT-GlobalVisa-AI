@@ -59,38 +59,59 @@ export const getUserActivity = async (req: Request, res: Response) => {
 export const getAnalytics = async (req: Request, res: Response) => {
     try {
         const totalUsers = await User.countDocuments({ role: { $ne: 'admin' } });
-        const verifiedUsers = await User.countDocuments({ role: { $ne: 'admin' }, isVerified: true });
-        const googleUsers = await User.countDocuments({ provider: 'google' });
-        const emailUsers = await User.countDocuments({ provider: 'email' });
 
-        // Users with assessments
-        const usersWithAssessments = await User.countDocuments({
+        // Recent signups (last 7 days)
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        const recentUsers = await User.countDocuments({
+            role: { $ne: 'admin' },
+            createdAt: { $gte: sevenDaysAgo }
+        });
+
+        // Get all users with assessment data for aggregation
+        const usersWithData = await User.find({
             role: { $ne: 'admin' },
             'assessmentHistory.0': { $exists: true }
-        });
+        }).select('assessmentHistory');
 
-        // Users with profiles
-        const usersWithProfiles = await User.countDocuments({
-            role: { $ne: 'admin' },
-            'profile.fullName': { $exists: true }
-        });
+        // Total assessments across all users
+        let totalAssessments = 0;
+        let totalScore = 0;
+        const countryCount: Record<string, number> = {};
 
-        // Recent signups (last 30 days)
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        const recentSignups = await User.countDocuments({
-            role: { $ne: 'admin' },
-            createdAt: { $gte: thirtyDaysAgo }
-        });
+        for (const user of usersWithData) {
+            const history = (user as any).assessmentHistory || [];
+            totalAssessments += history.length;
+            for (const assessment of history) {
+                if (assessment.overallScore) {
+                    totalScore += assessment.overallScore;
+                }
+                const country = assessment.targetCountry || assessment.countryName;
+                if (country) {
+                    countryCount[country] = (countryCount[country] || 0) + 1;
+                }
+            }
+        }
+
+        // Average score
+        const averageScore = totalAssessments > 0 ? Math.round(totalScore / totalAssessments) : 0;
+
+        // Active users (those with at least 1 assessment)
+        const activeUsers = usersWithData.length;
+
+        // Popular destinations (top 5)
+        const popularDestinations = Object.entries(countryCount)
+            .map(([country, count]) => ({ country, count }))
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 5);
 
         const analytics = {
             totalUsers,
-            verifiedUsers,
-            googleUsers,
-            emailUsers,
-            usersWithAssessments,
-            usersWithProfiles,
-            recentSignups
+            totalAssessments,
+            recentUsers,
+            popularDestinations,
+            averageScore,
+            activeUsers
         };
 
         res.status(200).json({ analytics });
@@ -99,3 +120,4 @@ export const getAnalytics = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Failed to fetch analytics', error: error instanceof Error ? error.message : String(error) });
     }
 };
+
