@@ -193,8 +193,8 @@ const FindMyUni: React.FC<FindMyUniProps> = ({ profile, onSearchComplete }) => {
       ['Global Rank', ...selectedUnis.map(u => u.rank)],
       ['Tuition Est.', ...selectedUnis.map(u => u.tuition)],
       ['Match Score', ...selectedUnis.map(u => `${u.matchScore}%`)],
-      ['Intakes', ...selectedUnis.map(u => u.intakes.join(', '))],
-      ['Key Programs', ...selectedUnis.map(u => u.keyPrograms.join(', '))],
+      ['Intakes', ...selectedUnis.map(u => (u.intakes || []).join(', '))],
+      ['Key Programs', ...selectedUnis.map(u => (u.keyPrograms || []).join(', '))],
       ['Description', ...selectedUnis.map(u => u.description)],
     ];
 
@@ -543,7 +543,7 @@ const FindMyUni: React.FC<FindMyUniProps> = ({ profile, onSearchComplete }) => {
                     </div>
                     {selectedUnis.map(u => (
                       <div key={u.id} className={`p-4 text-sm font-bold text-slate-700 flex items-center ${i % 2 === 0 ? 'bg-slate-50' : ''} ${u.id === selectedUnis[selectedUnis.length-1].id && i % 2 === 0 ? 'rounded-r-xl' : ''}`}>
-                        {row.isArray ? (u as any)[row.key].join(', ') : (u as any)[row.key]}
+                        {row.isArray ? ((u as any)[row.key] || []).join(', ') : (u as any)[row.key]}
                       </div>
                     ))}
                   </React.Fragment>

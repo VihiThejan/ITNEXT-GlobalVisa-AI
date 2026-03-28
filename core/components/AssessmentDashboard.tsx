@@ -98,9 +98,9 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
     doc.text('I. Strategic Profile DNA', 20, 100);
     
     const dnaData = [
-      ['Strengths', analysis.strengths.join('\n')],
-      ['Gaps', analysis.weaknesses.join('\n')],
-      ['Optimizations', analysis.improvements.join('\n')]
+      ['Strengths', (analysis.strengths || []).join('\n')],
+      ['Gaps', (analysis.weaknesses || []).join('\n')],
+      ['Optimizations', (analysis.improvements || []).join('\n')]
     ];
 
     autoTable(doc, {

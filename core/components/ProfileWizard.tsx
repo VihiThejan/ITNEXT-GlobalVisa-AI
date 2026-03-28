@@ -51,7 +51,7 @@ const ProfileWizard: React.FC<ProfileWizardProps> = ({ onComplete, onCancel, ini
     visaIntent: VISA_INTENTS[0],
   });
 
-  const [skillsInput, setSkillsInput] = useState(profile.skills.join(', '));
+  const [skillsInput, setSkillsInput] = useState((profile.skills || []).join(', '));
   const [errors, setErrors] = useState<FormErrors>({});
 
   const validateForm = (): boolean => {
