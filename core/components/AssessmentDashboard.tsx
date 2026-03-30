@@ -160,17 +160,24 @@ const AssessmentDashboard: React.FC<AssessmentDashboardProps> = ({ result, onRes
 
     // Final Advice
     const finalY3 = (doc as any).lastAutoTable.finalY + 15;
-    if (finalY3 > 250) doc.addPage();
-    const startY4 = finalY3 > 250 ? 20 : finalY3;
+    let startY4 = finalY3;
+    const splitAdvice = doc.splitTextToSize(result.aiAdvice || '', pageWidth - 60);
+    const adviceHeight = splitAdvice.length * 6;
+    const rectHeight = Math.max(30, adviceHeight + 25);
+    
+    if (startY4 + rectHeight > 280) {
+      doc.addPage();
+      startY4 = 20;
+    }
+    
     doc.setFillColor(15, 23, 42);
-    doc.roundedRect(20, startY4, pageWidth - 40, 30, 5, 5, 'F');
+    doc.roundedRect(20, startY4, pageWidth - 40, rectHeight, 5, 5, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.text('FINAL STRATEGIC DIRECTIVE', 30, startY4 + 10);
     doc.setFontSize(11);
     doc.setFont('helvetica', 'italic');
-    const splitAdvice = doc.splitTextToSize(result.aiAdvice, pageWidth - 60);
     doc.text(splitAdvice, 30, startY4 + 18);
 
     // Footer

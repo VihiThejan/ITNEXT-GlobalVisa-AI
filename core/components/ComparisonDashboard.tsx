@@ -14,12 +14,32 @@ const ComparisonDashboard: React.FC<ComparisonDashboardProps> = ({ results, onBa
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const wrapText = (context: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
+      const words = text.split(' ');
+      let line = '';
+      let currentY = y;
+
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = context.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+          context.fillText(line, x, currentY);
+          line = words[n] + ' ';
+          currentY += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      context.fillText(line, x, currentY);
+      return currentY + lineHeight;
+    };
+
     const width = 1600;
     const padding = 100;
     const colWidth = (width - 2 * padding) / results.length;
     const headerHeight = 300;
-    const sectionHeight = 250;
-    const totalHeight = headerHeight + sectionHeight * 3 + 200;
+    const totalHeight = 1100;
 
     canvas.width = width;
     canvas.height = totalHeight;
@@ -43,7 +63,7 @@ const ComparisonDashboard: React.FC<ComparisonDashboardProps> = ({ results, onBa
       
       // Country Header
       ctx.fillStyle = '#f8fafc';
-      ctx.fillRect(x + 10, headerHeight - 50, colWidth - 20, sectionHeight * 4);
+      ctx.fillRect(x + 10, headerHeight - 50, colWidth - 20, totalHeight - headerHeight);
       
       ctx.fillStyle = '#0f172a';
       ctx.font = 'black 36px Inter, sans-serif';
@@ -63,19 +83,37 @@ const ComparisonDashboard: React.FC<ComparisonDashboardProps> = ({ results, onBa
       ctx.fillText('Key Strengths', x + 30, headerHeight + 250);
       ctx.font = '500 14px Inter, sans-serif';
       ctx.fillStyle = '#475569';
-      res.matchBreakdown.strengths.slice(0, 3).forEach((s, j) => {
-        ctx.fillText(`• ${s}`, x + 30, headerHeight + 280 + j * 25);
+      
+      let currentY = headerHeight + 280;
+      res.matchBreakdown.strengths.slice(0, 3).forEach((s) => {
+        currentY = wrapText(ctx, `• ${s}`, x + 30, currentY, colWidth - 60, 22) + 8;
       });
 
       // Improvement
+      currentY += 20;
       ctx.fillStyle = '#0f172a';
       ctx.font = 'black 20px Inter, sans-serif';
-      ctx.fillText('Improvement Points', x + 30, headerHeight + 450);
+      ctx.fillText('Improvement Points', x + 30, currentY);
+      currentY += 30;
       ctx.font = '500 14px Inter, sans-serif';
       ctx.fillStyle = '#475569';
-      res.matchBreakdown.improvementPoints.slice(0, 3).forEach((p, j) => {
-        ctx.fillText(`• ${p}`, x + 30, headerHeight + 480 + j * 25);
+      res.matchBreakdown.improvementPoints.slice(0, 3).forEach((p) => {
+        currentY = wrapText(ctx, `• ${p}`, x + 30, currentY, colWidth - 60, 22) + 8;
       });
+      
+      // Target Pathway
+      currentY += 20;
+      ctx.fillStyle = '#0f172a';
+      ctx.font = 'black 20px Inter, sans-serif';
+      ctx.fillText('Top Pathway', x + 30, currentY);
+      currentY += 30;
+      ctx.font = 'bold 16px Inter, sans-serif';
+      ctx.fillStyle = '#FF8B60';
+      if (res.eligibleVisas && res.eligibleVisas[0]) {
+        currentY = wrapText(ctx, res.eligibleVisas[0].visaName, x + 30, currentY, colWidth - 60, 24);
+      } else {
+        ctx.fillText('No eligible pathway found', x + 30, currentY);
+      }
     });
 
     const link = document.createElement('a');
