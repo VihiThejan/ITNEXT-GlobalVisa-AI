@@ -32,10 +32,13 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage, user, onLogout
     <nav className="sticky top-0 z-50 glass-card border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
-          <div className="flex items-center cursor-pointer group" onClick={() => onNavigate('home')}>
-            <ITNextLogo className="h-10 group-hover:scale-105 transition-transform" />
-            <div className="ml-3 h-8 w-[1px] bg-slate-200 hidden sm:block"></div>
-            <span className="ml-3 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hidden sm:block leading-tight">
+          <div className="flex items-center cursor-pointer group gap-1" onClick={() => onNavigate('home')}>
+            <div className="flex items-center">
+              <ITNextLogo className="h-10 group-hover:scale-105 transition-transform" />
+              <span className="ml-2 px-2 py-0.5 rounded border border-[#FF8B60]/20 bg-[#FF8B60]/10 text-[#FF8B60] text-[9px] font-black uppercase tracking-widest hidden sm:inline-flex items-center self-start mt-1">BETA</span>
+            </div>
+            <div className="ml-2 h-8 w-[1px] bg-slate-200 hidden sm:block"></div>
+            <span className="ml-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hidden sm:block leading-tight">
               GlobalVisa<br/>Platform
             </span>
           </div>
