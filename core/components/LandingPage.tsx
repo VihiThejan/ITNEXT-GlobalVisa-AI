@@ -160,6 +160,21 @@ const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
+      {/* Explicit App Purpose Section for Google OAuth Verification */}
+      <section className="bg-[#FF8B60]/5 border-y border-[#FF8B60]/10 py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <div className="text-[#FF8B60] font-black text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-3">
+            <i className="fas fa-info-circle"></i> Application Purpose
+          </div>
+          <h2 className="text-3xl md:text-5xl font-[900] text-slate-900 tracking-tight">
+            What does ITNEXT GlobalVisa AI actually do?
+          </h2>
+          <p className="text-lg text-slate-600 font-medium leading-relaxed">
+            The explicit purpose of the <strong>ITNEXT GlobalVisa AI</strong> application is to serve as a comprehensive global mobility assistant. We analyze user profiles—including academic background, professional experience, and relocation intent—using artificial intelligence to generate personalized visa eligibility assessments. Additionally, the platform connects users with suitable international universities and global enterprise jobs that match their qualifications, effectively centralizing the entire immigration and relocation planning process into one educational and actionable dashboard.
+          </p>
+        </div>
+      </section>
+
       {/* Stats Section - Keep as it's general */}
       <section className="relative z-20 max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -239,6 +254,17 @@ const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </div>
       </section>
+
+      {/* Direct Legal Links for Google OAuth Verification */}
+      <div className="max-w-7xl mx-auto px-4 pb-12 flex items-center justify-center gap-6">
+        <a href="/privacy-policy" className="text-sm font-bold text-slate-500 hover:text-[#FF8B60] underline underline-offset-4">
+          Privacy Policy
+        </a>
+        <span className="text-slate-300">•</span>
+        <a href="/terms-of-service" className="text-sm font-bold text-slate-500 hover:text-[#FF8B60] underline underline-offset-4">
+          Terms of Service
+        </a>
+      </div>
     </div>
   );
 };
