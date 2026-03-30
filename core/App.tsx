@@ -163,6 +163,16 @@ const App: React.FC = () => {
     }
   };
 
+  const handleNavigation = (page: string, countryId?: string) => {
+    const publicPages = ['home', 'auth', 'countries', 'country-detail', 'services', 'about', 'contact', 'partners', 'privacy-policy', 'terms-of-service'];
+    
+    if (publicPages.includes(page)) {
+      navigate(page, countryId);
+    } else {
+      protectedNavigate(page, countryId);
+    }
+  };
+
   const handleCountryDetail = (countryId: string) => {
     const country = COUNTRIES.find(c => c.id === countryId);
     if (country) {
@@ -355,7 +365,7 @@ const App: React.FC = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen flex flex-col">
-      <Navbar onNavigate={(page) => protectedNavigate(page)} currentPage={currentPage} user={user} onLogout={handleLogout} />
+      <Navbar onNavigate={handleNavigation} currentPage={currentPage} user={user} onLogout={handleLogout} />
       
       <main className="flex-grow relative">
         {dbConnected && (
@@ -406,7 +416,7 @@ const App: React.FC = () => {
             onCheckEligibility={handleEligibilityCheck} 
             onViewAssessment={(res) => { setAssessmentResult(res); setCurrentPage('result'); }} 
             onEditProfile={handleProfileComplete} 
-            onNavigate={navigate}
+            onNavigate={handleNavigation}
           />
         )}
 
@@ -445,7 +455,7 @@ const App: React.FC = () => {
         )}
         
         {currentPage === 'countries' && (
-          <Countries onNavigate={navigate} />
+          <Countries onNavigate={handleNavigation} />
         )}
         
         {currentPage === 'country-detail' && selectedCountry && (
@@ -453,7 +463,7 @@ const App: React.FC = () => {
         )}
 
         {currentPage === 'services' && (
-          <Services onNavigate={navigate} />
+          <Services onNavigate={handleNavigation} />
         )}
 
         {currentPage === 'about' && (
@@ -487,11 +497,11 @@ const App: React.FC = () => {
 
       <footer className="bg-slate-900 text-slate-400 py-12 text-center uppercase tracking-widest text-[10px] font-black space-y-3">
         <div className="flex items-center justify-center gap-4">
-          <button onClick={() => navigate('privacy-policy')} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
+          <button onClick={() => handleNavigation('privacy-policy')} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
             Privacy Policy
           </button>
           <span className="text-slate-700">•</span>
-          <button onClick={() => navigate('terms-of-service')} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
+          <button onClick={() => handleNavigation('terms-of-service')} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
             Terms of Service
           </button>
         </div>
