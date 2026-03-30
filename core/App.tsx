@@ -503,7 +503,7 @@ const App: React.FC = () => {
             Terms of Service
           </button>
         </div>
-        <div>© 2024 ITNEXT INFRASTRUCTURE • SECURE GLOBAL SYSTEMS</div>
+        <div>© 2026 ITNEXT INFRASTRUCTURE • SECURE GLOBAL SYSTEMS</div>
       </footer>
     </div>
     </ErrorBoundary>
