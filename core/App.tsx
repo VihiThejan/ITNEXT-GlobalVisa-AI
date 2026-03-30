@@ -69,8 +69,15 @@ class ErrorBoundary extends Component<any, any> {
   }
 }
 
+const getInitialPage = () => {
+  const path = window.location.pathname.replace(/^\/+/, '');
+  const publicPages = ['privacy-policy', 'terms-of-service', 'auth', 'countries', 'services', 'about', 'contact', 'partners'];
+  if (publicPages.includes(path)) return path;
+  return 'home';
+};
+
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState('home');
+  const [currentPage, setCurrentPage] = useState(getInitialPage());
   const [findJobKey, setFindJobKey] = useState(0);
   const [findUniKey, setFindUniKey] = useState(0);
   const [user, setUser] = useState<User | null>(null);
@@ -147,6 +154,12 @@ const App: React.FC = () => {
       }
     } else {
       setCurrentPage(page);
+    }
+    
+    // Update URL to match state for SEO and direct links
+    const newPath = page === 'home' ? '/' : `/${page}`;
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({}, '', newPath);
     }
   };
 
@@ -495,13 +508,13 @@ const App: React.FC = () => {
 
       <footer className="bg-slate-900 text-slate-400 py-12 text-center uppercase tracking-widest text-[10px] font-black space-y-3">
         <div className="flex items-center justify-center gap-4">
-          <button onClick={() => handleNavigation('privacy-policy')} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
+          <a href="/privacy-policy" onClick={(e) => { e.preventDefault(); handleNavigation('privacy-policy'); }} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
             Privacy Policy
-          </button>
+          </a>
           <span className="text-slate-700">•</span>
-          <button onClick={() => handleNavigation('terms-of-service')} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
+          <a href="/terms-of-service" onClick={(e) => { e.preventDefault(); handleNavigation('terms-of-service'); }} className="hover:text-[#FF8B60] transition-colors cursor-pointer">
             Terms of Service
-          </button>
+          </a>
         </div>
         <div>© 2026 ITNEXT INFRASTRUCTURE • SECURE GLOBAL SYSTEMS</div>
       </footer>
