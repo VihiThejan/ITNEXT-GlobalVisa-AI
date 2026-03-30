@@ -22,7 +22,6 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage, user, onLogout
 
   if (user && user.profile) {
     navItems.splice(1, 0, { id: 'dashboard', label: 'Dashboard' });
-    navItems.push({ id: 'feedback', label: 'Feedback' });
   }
 
   if (user?.role === 'admin') {

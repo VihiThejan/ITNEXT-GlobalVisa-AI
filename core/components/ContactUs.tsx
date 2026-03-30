@@ -2,8 +2,14 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import ITNextLogo from './Logo';
+import { User } from '../types';
+import FeedbackPage from './FeedbackPage';
 
-const ContactUs: React.FC = () => {
+interface ContactUsProps {
+  user?: User | null;
+}
+
+const ContactUs: React.FC<ContactUsProps> = ({ user }) => {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
@@ -153,6 +159,12 @@ const ContactUs: React.FC = () => {
           </motion.div>
         </div>
       </div>
+      
+      {user && (
+        <div className="mt-20 border-t border-slate-200 bg-white shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)]">
+          <FeedbackPage user={user} />
+        </div>
+      )}
     </div>
   );
 };

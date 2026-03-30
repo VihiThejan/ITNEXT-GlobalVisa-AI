@@ -471,16 +471,14 @@ const App: React.FC = () => {
         )}
 
         {currentPage === 'contact' && (
-          <ContactUs />
+          <ContactUs user={user} />
         )}
 
         {currentPage === 'partners' && (
           <Partners />
         )}
 
-        {currentPage === 'feedback' && user && (
-          <FeedbackPage user={user} />
-        )}
+
 
         {currentPage === 'privacy-policy' && (
           <PrivacyPolicy />
