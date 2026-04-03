@@ -98,6 +98,7 @@ import profileRoutes from './routes/profileRoutes';
 import adminRoutes from './routes/adminRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
 import discoverRoutes from './routes/discoverRoutes';
+import historyRoutes from './routes/historyRoutes';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/activity', activityRoutes);
@@ -107,6 +108,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/discover', discoverRoutes);
+app.use('/api/history', historyRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {

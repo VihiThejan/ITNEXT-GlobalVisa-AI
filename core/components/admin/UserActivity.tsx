@@ -218,6 +218,61 @@ const UserActivity: React.FC<UserActivityProps> = ({ userId, onBack }) => {
             </div>
           )}
 
+          {/* University Queries History */}
+          {userData.uniSearchHistory && userData.uniSearchHistory.length > 0 && (
+            <CollapsibleSection title={`University Queries (${userData.uniSearchHistory.length})`} sectionKey="uni">
+              <div className="space-y-4">
+                {userData.uniSearchHistory.map((record: any, index: number) => (
+                  <div key={index} className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <DetailRow label="Subject" value={record.criteria?.subjectArea} />
+                    <DetailRow label="Degree" value={record.criteria?.degreeType} />
+                    <DetailRow label="Country" value={record.criteria?.country} />
+                    <DetailRow label="Results Count" value={record.resultsCount} />
+                    <DetailRow label="Date" value={new Date(record.date).toLocaleString()} />
+                  </div>
+                ))}
+              </div>
+            </CollapsibleSection>
+          )}
+
+          {/* Job Market Syncs History */}
+          {userData.jobSearchHistory && userData.jobSearchHistory.length > 0 && (
+            <CollapsibleSection title={`Job Market Syncs (${userData.jobSearchHistory.length})`} sectionKey="job">
+              <div className="space-y-4">
+                {userData.jobSearchHistory.map((record: any, index: number) => (
+                  <div key={index} className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <DetailRow label="Industry" value={record.criteria?.industry} />
+                    <DetailRow label="Location" value={record.criteria?.location} />
+                    <DetailRow label="Results Count" value={record.resultsCount} />
+                    <DetailRow label="Date" value={new Date(record.date).toLocaleString()} />
+                  </div>
+                ))}
+              </div>
+            </CollapsibleSection>
+          )}
+
+          {/* Country Insights History */}
+          {userData.countryViewHistory && userData.countryViewHistory.length > 0 && (
+            <CollapsibleSection title={`Country Insights (${userData.countryViewHistory.length})`} sectionKey="country">
+              <div className="space-y-4">
+                {userData.countryViewHistory.map((record: any, index: number) => (
+                  <div key={index} className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <div className="flex items-center gap-2 mb-2">
+                       <img 
+                          src={`https://flagcdn.com/w40/${record.countryId === 'uk' ? 'gb' : record.countryId}.png`} 
+                          alt=""
+                          className="w-6 h-4 object-cover rounded-sm"
+                          referrerPolicy="no-referrer"
+                        />
+                        <span className="font-bold text-slate-800">{record.countryName}</span>
+                    </div>
+                    <DetailRow label="Viewed Date" value={new Date(record.date).toLocaleString()} />
+                  </div>
+                ))}
+              </div>
+            </CollapsibleSection>
+          )}
+
           {/* Raw JSON Export */}
           <CollapsibleSection title="Raw JSON Data" sectionKey="json">
             <pre className="bg-slate-900 text-green-400 p-4 rounded-xl overflow-auto text-xs max-h-96">

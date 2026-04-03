@@ -20,6 +20,9 @@ const UserSchema: Schema = new Schema({
     isVerified: { type: Boolean, default: false },
     avatar: { type: String },
     assessmentHistory: { type: Array, default: [] },
+    uniSearchHistory: { type: Array, default: [] },
+    jobSearchHistory: { type: Array, default: [] },
+    countryViewHistory: { type: Array, default: [] },
     profile: { type: Object, default: {} }
 }, { timestamps: true });
 
@@ -32,6 +35,15 @@ UserSchema.set('toJSON', {
         delete ret.password;
         if (!ret.assessmentHistory) {
             ret.assessmentHistory = [];
+        }
+        if (!ret.uniSearchHistory) {
+            ret.uniSearchHistory = [];
+        }
+        if (!ret.jobSearchHistory) {
+            ret.jobSearchHistory = [];
+        }
+        if (!ret.countryViewHistory) {
+            ret.countryViewHistory = [];
         }
         return ret;
     }
