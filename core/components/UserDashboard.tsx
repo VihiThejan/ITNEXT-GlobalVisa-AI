@@ -23,6 +23,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
   user, onCheckEligibility, isLoading, onViewAssessment, onEditProfile, onNavigate 
 }) => {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [viewingRecord, setViewingRecord] = useState<{ type: 'uni' | 'job', record: any } | null>(null);
   const profile = user.profile!;
   const history = user.assessmentHistory || [];
   const uniHistory = user.uniSearchHistory || [];
@@ -50,6 +51,62 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
             <div className="-mt-16 pb-12">
               <ProfileWizard onComplete={handleProfileUpdate} onCancel={() => setIsEditingProfile(false)} initialData={profile} />
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Viewing Record Modal */}
+      {viewingRecord && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={() => setViewingRecord(null)}></div>
+          <div className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-[3rem] shadow-3xl border border-white/20 p-8">
+            <div className="flex justify-between items-center mb-8">
+              <div>
+                <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">
+                  {viewingRecord.type === 'uni' ? 'University Match Results' : 'Job Sync Results'}
+                </h2>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Historic Performance Log</p>
+              </div>
+              <button 
+                onClick={() => setViewingRecord(null)}
+                className="w-12 h-12 rounded-2xl bg-white shadow-xl flex items-center justify-center text-slate-400 hover:text-rose-500 transition-colors"
+              >
+                <i className="fas fa-times text-xl"></i>
+              </button>
+            </div>
+
+            {viewingRecord.record.results && viewingRecord.record.results.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {viewingRecord.record.results.map((item: any, i: number) => (
+                  <div key={i} className="bg-white rounded-[2rem] p-6 shadow-lg border border-slate-100 flex flex-col">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-[#FF8B60] text-xl font-black">
+                        {viewingRecord.type === 'uni' ? item.name[0] : item.company[0]}
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Match</p>
+                        <p className="text-xl font-black text-[#FF8B60]">{item.matchScore}%</p>
+                      </div>
+                    </div>
+                    <div className="flex-grow space-y-2">
+                      <h3 className="text-lg font-black text-slate-900 leading-tight">
+                        {viewingRecord.type === 'uni' ? item.name : item.title}
+                      </h3>
+                      {viewingRecord.type === 'job' && <p className="text-sm font-bold text-slate-700">{item.company}</p>}
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center">
+                        <i className="fas fa-map-marker-alt mr-2 text-slate-400"></i> {item.location}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <i className="fas fa-history text-5xl text-slate-200 mb-4"></i>
+                <h3 className="text-xl font-black text-slate-900">Archived Record</h3>
+                <p className="text-sm text-slate-500">The detailed AI results array was not captured for this historic search.</p>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -165,7 +222,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
                 <p className="text-[10px] font-black text-[#FF8B60] uppercase tracking-widest px-2">University Queries</p>
                 <div className="space-y-3">
                   {uniHistory.length > 0 ? [...uniHistory].reverse().slice(0, 2).map((record) => (
-                    <div key={record.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div key={record.id} onClick={() => setViewingRecord({ type: 'uni', record })} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-orange-200 cursor-pointer transition-all group">
                       <div className="flex justify-between items-center mb-1">
                         <p className="font-black text-slate-900 text-xs">{record.criteria.subjectArea}</p>
                         <p className="text-[10px] font-black text-orange-600">{record.resultsCount} hits</p>
@@ -185,7 +242,7 @@ const UserDashboard: React.FC<UserDashboardProps> = ({
                 <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest px-2">Job Market Syncs</p>
                 <div className="space-y-3">
                   {jobHistory.length > 0 ? [...jobHistory].reverse().slice(0, 2).map((record) => (
-                    <div key={record.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div key={record.id} onClick={() => setViewingRecord({ type: 'job', record })} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-emerald-300 cursor-pointer transition-all group">
                       <div className="flex justify-between items-center mb-1">
                         <p className="font-black text-slate-900 text-xs">{record.criteria.industry}</p>
                         <p className="text-[10px] font-black text-emerald-600">{record.resultsCount} jobs</p>

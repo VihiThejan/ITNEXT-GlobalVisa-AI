@@ -313,7 +313,8 @@ const App: React.FC = () => {
       id: Math.random().toString(36).substr(2, 9),
       date: new Date().toISOString(),
       criteria,
-      resultsCount: results.length
+      resultsCount: results.length,
+      results
     };
     try {
       const updatedUser = await api.history.saveUniSearch(user.id, record);
@@ -329,7 +330,8 @@ const App: React.FC = () => {
       id: Math.random().toString(36).substr(2, 9),
       date: new Date().toISOString(),
       criteria,
-      resultsCount: results.length
+      resultsCount: results.length,
+      results
     };
     try {
       const updatedUser = await api.history.saveJobSearch(user.id, record);

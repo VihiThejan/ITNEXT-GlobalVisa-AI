@@ -26,6 +26,7 @@ export interface UniversitySearchRecord {
   date: string;
   criteria: any;
   resultsCount: number;
+  results?: University[];
 }
 
 export interface JobSearchRecord {
@@ -33,6 +34,7 @@ export interface JobSearchRecord {
   date: string;
   criteria: any;
   resultsCount: number;
+  results?: JobOffer[];
 }
 
 export interface Country {
