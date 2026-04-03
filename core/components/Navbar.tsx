@@ -81,31 +81,11 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage, user, onLogout
                        <p className="text-xs font-bold text-slate-700 truncate">{user.email}</p>
                     </div>
                     {user.profile && (
-                      <>
-                        <button onClick={() => onNavigate('dashboard')} className="w-full text-left px-6 py-3 text-sm text-slate-700 hover:bg-slate-50 flex items-center font-semibold">
-                          <i className="fas fa-gauge-high mr-4 text-[#FF8B60] opacity-60"></i> Command Center
-                        </button>
-                        <button onClick={() => onNavigate('edit-profile')} className="w-full text-left px-6 py-3 text-sm text-slate-700 hover:bg-slate-50 flex items-center font-semibold">
-                          <i className="fas fa-user-edit mr-4 text-[#FF8B60] opacity-60"></i> Update Identity
-                        </button>
-                        <button onClick={() => onNavigate('visa-eligibility')} className="w-full text-left px-6 py-3 text-sm text-slate-700 hover:bg-slate-50 flex items-center font-semibold">
-                          <i className="fas fa-passport mr-4 text-[#FF8B60] opacity-60"></i> Visa Eligibility
-                        </button>
-                        <button onClick={() => onNavigate('find-uni')} className="w-full text-left px-6 py-3 text-sm text-slate-700 hover:bg-slate-50 flex items-center font-semibold">
-                          <i className="fas fa-graduation-cap mr-4 text-[#FF8B60] opacity-60"></i> FindMyUni
-                        </button>
-                        <button onClick={() => onNavigate('find-job')} className="w-full text-left px-6 py-3 text-sm text-slate-700 hover:bg-slate-50 flex items-center font-semibold">
-                          <i className="fas fa-briefcase mr-4 text-[#FF8B60] opacity-60"></i> FindMyJob
-                        </button>
-                      </>
+                      <button onClick={() => onNavigate('edit-profile')} className="w-full text-left px-6 py-3 text-sm text-slate-700 hover:bg-slate-50 flex items-center font-semibold">
+                        <i className="fas fa-user-edit mr-4 text-[#FF8B60] opacity-60"></i> Update Identity
+                      </button>
                     )}
-                    <button onClick={() => onNavigate('countries')} className="w-full text-left px-6 py-3 text-sm text-slate-700 hover:bg-slate-50 flex items-center font-semibold">
-                      <i className="fas fa-globe-americas mr-4 text-[#FF8B60] opacity-60"></i> Explore Countries
-                    </button>
                     <div className="border-t border-slate-50 my-2 mx-6"></div>
-                    <button onClick={() => onNavigate('home')} className="w-full text-left px-6 py-3 text-sm text-slate-500 hover:bg-slate-50 flex items-center font-bold">
-                      <i className="fas fa-home mr-4"></i> Reset to Home
-                    </button>
                     <button onClick={onLogout} className="w-full text-left px-6 py-3 text-sm text-rose-500 hover:bg-rose-50 flex items-center font-bold">
                       <i className="fas fa-sign-out-alt mr-4"></i> Sign Out
                     </button>
